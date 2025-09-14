@@ -920,7 +920,7 @@
         forms.support.addEventListener('submit', async (e) => {
             e.preventDefault();
             const supportNeeds = document.getElementById('supportNeeds').value;
-            if (!supportNeeds.trim()) { alert('الرجاء وصف احتياج الطفل.'); return null; }
+            if (!supportNeeds.trim()) { alert('الرجاء وصف احتياج الطفل.'); return; }
             const { result, loader, resultText } = { result: results.support, loader: loaders.support, resultText: resultTexts.support };
             result.classList.remove('hidden');
             loader.classList.remove('hidden');
