@@ -62,11 +62,12 @@
                             <button data-modal="lesson" class="gemini-tab font-semibold text-lg py-3 px-4">✨ الدروس</button>
                             <button data-modal="objectives" class="gemini-tab font-semibold text-lg py-3 px-4">🎯 الأهداف</button>
                             <button data-modal="activity" class="gemini-tab font-semibold text-lg py-3 px-4">💡 الأنشطة</button>
+                            <button data-modal="story" class="gemini-tab font-semibold text-lg py-3 px-4">📖 القصص</button>
+                            <button data-modal="song" class="gemini-tab font-semibold text-lg py-3 px-4">🎶 الأناشيد</button>
                             <button data-modal="questions" class="gemini-tab font-semibold text-lg py-3 px-4">🤔 أسئلة</button>
                             <button data-modal="transition" class="gemini-tab font-semibold text-lg py-3 px-4">🚀 الانتقالات</button>
-                            <button data-modal="song" class="gemini-tab font-semibold text-lg py-3 px-4">🎶 الأناشيد</button>
-                            <button data-modal="story" class="gemini-tab font-semibold text-lg py-3 px-4">📖 القصص</button>
                             <button data-modal="conflict" class="gemini-tab font-semibold text-lg py-3 px-4">🗣️ النزاعات</button>
+                            <button data-modal="roleplay" class="gemini-tab font-semibold text-lg py-3 px-4">🎭 لعب الأدوار</button>
                             <button data-modal="observation" class="gemini-tab font-semibold text-lg py-3 px-4">📋 الملاحظات</button>
                             <button data-modal="communication" class="gemini-tab font-semibold text-lg py-3 px-4">✉️ رسائل</button>
                             <button data-modal="summary" class="gemini-tab font-semibold text-lg py-3 px-4">📝 الملخص</button>
@@ -451,6 +452,31 @@
             </div>
         </div>
     </div>
+    <div data-modal-id="roleplay" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
+            <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600">مولّد سيناريوهات لعب الأدوار</h3>
+            <form id="roleplayForm">
+                 <div class="mb-6">
+                    <label for="roleplaySkill" class="block text-gray-700 text-sm font-bold mb-2">صف المهارة الاجتماعية أو الموقف:</label>
+                    <textarea id="roleplaySkill" rows="3" placeholder="مثال: كيفية طلب المشاركة في لعبة، تعلم قول 'شكراً' و'من فضلك'..." class="shadow-sm appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500"></textarea>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="bg-teal-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-teal-600 transition-colors">
+                        ✨ إنشاء سيناريو
+                    </button>
+                </div>
+            </form>
+            <div id="roleplayResult" class="mt-6 hidden">
+                <div class="flex justify-between items-center mb-2">
+                    <h4 class="text-xl font-bold text-gray-800">سيناريو مقترح:</h4>
+                    <button class="copy-btn bg-slate-200 text-slate-700 text-sm py-1 px-3 rounded-md hover:bg-slate-300">نسخ النص</button>
+                </div>
+                <div id="roleplayLoader" class="loader mx-auto my-4 hidden"></div>
+                <pre id="roleplayResultText" class="bg-slate-100 p-4 rounded-lg whitespace-pre-wrap text-right font-sans"></pre>
+            </div>
+        </div>
+    </div>
     
     <script>
         const apiKey = "";
@@ -502,7 +528,8 @@
             objectives: document.getElementById('objectivesForm'),
             questions: document.getElementById('questionsForm'),
             unit: document.getElementById('unitForm'),
-            transition: document.getElementById('transitionForm')
+            transition: document.getElementById('transitionForm'),
+            roleplay: document.getElementById('roleplayForm')
         };
 
         const results = {
@@ -518,7 +545,8 @@
             objectives: document.getElementById('objectivesResult'),
             questions: document.getElementById('questionsResult'),
             unit: document.getElementById('unitResult'),
-            transition: document.getElementById('transitionResult')
+            transition: document.getElementById('transitionResult'),
+            roleplay: document.getElementById('roleplayResult')
         };
         
         const resultTexts = {
@@ -534,7 +562,8 @@
             objectives: document.getElementById('objectivesResultText'),
             questions: document.getElementById('questionsResultText'),
             unit: document.getElementById('unitResultText'),
-            transition: document.getElementById('transitionResultText')
+            transition: document.getElementById('transitionResultText'),
+            roleplay: document.getElementById('roleplayResultText')
         };
         
         const loaders = {
@@ -551,6 +580,7 @@
             questions: document.getElementById('questionsLoader'),
             unit: document.getElementById('unitLoader'),
             transition: document.getElementById('transitionLoader'),
+            roleplay: document.getElementById('roleplayLoader'),
             image: document.getElementById('imageLoader')
         };
 
@@ -582,50 +612,52 @@
         });
         
         // --- Form Submission Logic ---
-
-        forms.activity.addEventListener('submit', async (e) => {
+        async function handleFormSubmit(e, formType, userQueryBuilder, systemPrompt) {
             e.preventDefault();
-            const activityType = document.getElementById('activityType').value;
-            const activityTheme = document.getElementById('activityTheme').value;
-            if (!activityTheme.trim()) { alert('الرجاء إدخال موضوع للنشاط.'); return; }
-            const { result, loader, resultText } = { result: results.activity, loader: loaders.activity, resultText: resultTexts.activity };
+            const { form, result, loader, resultText } = { 
+                form: forms[formType],
+                result: results[formType], 
+                loader: loaders[formType], 
+                resultText: resultTexts[formType] 
+            };
+            
+            const userQueryData = userQueryBuilder(form);
+            if (!userQueryData) return;
+
             result.classList.remove('hidden');
             loader.classList.remove('hidden');
             resultText.textContent = '';
-            const systemPrompt = "أنت مربية أطفال خبيرة ومبدعة. مهمتك هي اقتراح أنشطة بسيطة وممتعة للأطفال بعمر 3-5 سنوات. يجب أن تكون الاقتراحات واضحة، قصيرة، ومناسبة لبيئة روضة الأطفال.";
-            const userQuery = `اقترح لي ${activityType} حول موضوع "${activityTheme}". قدم شرحًا موجزًا للخطوات والمواد اللازمة إن وجدت.`;
+            
             try {
-                resultText.textContent = await generateTextWithRetry(systemPrompt, userQuery);
-                e.target.reset();
+                resultText.textContent = await generateTextWithRetry(systemPrompt, userQueryData.query);
+                form.reset();
             } catch (error) {
-                resultText.textContent = 'عذرًا، حدث خطأ أثناء توليد الفكرة. الرجاء المحاولة مرة أخرى.';
+                resultText.textContent = 'عذرًا، حدث خطأ. الرجاء المحاولة مرة أخرى.';
             } finally {
                 loader.classList.add('hidden');
             }
-        });
-        
-        forms.communication.addEventListener('submit', async(e) => {
-            e.preventDefault();
-            const commTone = document.getElementById('commTone').value;
-            const commPoints = document.getElementById('commPoints').value;
-            if (!commPoints.trim()) { alert('الرجاء إدخال ملاحظات عن يوم الطفل.'); return; }
-            const { result, loader, resultText } = { result: results.communication, loader: loaders.communication, resultText: resultTexts.communication };
-            result.classList.remove('hidden');
-            loader.classList.remove('hidden');
-            resultText.textContent = '';
-            const systemPrompt = "أنت مساعد لمعلمة رياض أطفال، تتمتع بالخبرة واللطف. مهمتك هي صياغة رسائل احترافية ودافئة لأولياء الأمور باللغة العربية. يجب أن تكون الرسائل موجزة وإيجابية (حتى عند ذكر تحدٍ بسيط)، وواضحة.";
-            const userQuery = `بناءً على الملاحظات التالية عن يوم الطفل: "${commPoints}"، الرجاء صياغة مسودة رسالة لولي الأمر بنبرة "${commTone}".`;
-            try {
-                resultText.textContent = await generateTextWithRetry(systemPrompt, userQuery);
-                e.target.reset();
-            } catch (error) {
-                resultText.textContent = 'عذرًا، حدث خطأ أثناء صياغة الرسالة. الرجاء المحاولة مرة أخرى.';
-            } finally {
-                loader.classList.add('hidden');
-            }
+        }
+
+        // Event Listeners using the handler
+        forms.activity.addEventListener('submit', (e) => {
+            handleFormSubmit(e, 'activity', form => {
+                const type = form.querySelector('#activityType').value;
+                const theme = form.querySelector('#activityTheme').value;
+                if (!theme.trim()) { alert('الرجاء إدخال موضوع للنشاط.'); return null; }
+                return { query: `اقترح لي ${type} حول موضوع "${theme}". قدم شرحًا موجزًا للخطوات والمواد اللازمة إن وجدت.` };
+            }, "أنت مربية أطفال خبيرة ومبدعة. مهمتك هي اقتراح أنشطة بسيطة وممتعة للأطفال بعمر 3-5 سنوات. الاقتراحات يجب أن تكون واضحة، قصيرة، ومناسبة لبيئة روضة الأطفال.");
         });
 
-        forms.story.addEventListener('submit', async(e) => {
+        forms.communication.addEventListener('submit', (e) => {
+            handleFormSubmit(e, 'communication', form => {
+                const tone = form.querySelector('#commTone').value;
+                const points = form.querySelector('#commPoints').value;
+                if (!points.trim()) { alert('الرجاء إدخال ملاحظات عن يوم الطفل.'); return null; }
+                return { query: `بناءً على الملاحظات التالية عن يوم الطفل: "${points}"، الرجاء صياغة مسودة رسالة لولي الأمر بنبرة "${tone}".` };
+            }, "أنت مساعد لمعلمة رياض أطفال، تتمتع بالخبرة واللطف. مهمتك هي صياغة رسائل احترافية ودافئة لأولياء الأمور باللغة العربية. يجب أن تكون الرسائل موجزة وإيجابية.");
+        });
+
+        forms.story.addEventListener('submit', async (e) => {
             e.preventDefault();
             const character = document.getElementById('storyCharacter').value;
             const theme = document.getElementById('storyTheme').value;
@@ -649,177 +681,90 @@
                 loader.classList.add('hidden');
             }
         });
-        
-        forms.summary.addEventListener('submit', async(e) => {
-            e.preventDefault();
-            const summaryPoints = document.getElementById('summaryPoints').value;
-            if (!summaryPoints.trim()) { alert('الرجاء إدخال كلمات رئيسية من أنشطة اليوم.'); return; }
-            const { result, loader, resultText } = { result: results.summary, loader: loaders.summary, resultText: resultTexts.summary };
-            result.classList.remove('hidden');
-            loader.classList.remove('hidden');
-            resultText.textContent = '';
-            const systemPrompt = "أنت معلمة رياض أطفال مرحة ومحبوبة. مهمتك هي صياغة ملخص قصير جدًا ومبسط ومبهج لنهاية اليوم الدراسي، موجه للأطفال (عمر 3-5 سنوات). استخدم لغة بسيطة وعبارات تشجيعية. ابدأ دائمًا بـ 'أصدقائي الصغار الرائعون!' واختتم بـ 'لقد كنتم مدهشين اليوم! أراكم غدًا.'";
-            const userQuery = `استخدمي هذه النقاط لصياغة الملخص: "${summaryPoints}"`;
-            try {
-                resultText.textContent = await generateTextWithRetry(systemPrompt, userQuery);
-                e.target.reset();
-            } catch (error) {
-                resultText.textContent = 'عذرًا، حدث خطأ أثناء إنشاء الملخص. الرجاء المحاولة مرة أخرى.';
-            } finally {
-                loader.classList.add('hidden');
-            }
-        });
-        
-        forms.lesson.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const lessonObjective = document.getElementById('lessonObjective').value;
-            const lessonDuration = document.getElementById('lessonDuration').value;
-            if (!lessonObjective.trim()) { alert('الرجاء إدخال الهدف التعليمي.'); return; }
-            const { result, loader, resultText } = { result: results.lesson, loader: loaders.lesson, resultText: resultTexts.lesson };
-            result.classList.remove('hidden');
-            loader.classList.remove('hidden');
-            resultText.textContent = '';
-            const systemPrompt = "أنت خبير في تصميم المناهج للتعليم المبكر (أعمار 3-5 سنوات). مهمتك هي إنشاء خطط دروس قصيرة، تفاعلية، ومناسبة لنمو الأطفال. ركز على التعلم من خلال اللعب.";
-            const userQuery = `بناءً على الهدف التعليمي التالي: "${lessonObjective}"، ولمدة تقريبية "${lessonDuration}"، قم بإنشاء خطة درس بسيطة باللغة العربية مقسمة إلى ثلاثة أقسام واضحة: 1. التهيئة (لجذب الانتباه)، 2. النشاط الرئيسي (الخطوات الرئيسية)، 3. الختام (للمراجعة والتهدئة).`;
-            try {
-                resultText.textContent = await generateTextWithRetry(systemPrompt, userQuery);
-                e.target.reset();
-            } catch (error) {
-                resultText.textContent = 'عذرًا، حدث خطأ أثناء إنشاء خطة الدرس. الرجاء المحاولة مرة أخرى.';
-            } finally {
-                loader.classList.add('hidden');
-            }
+
+        forms.summary.addEventListener('submit', (e) => {
+            handleFormSubmit(e, 'summary', form => {
+                const points = form.querySelector('#summaryPoints').value;
+                if (!points.trim()) { alert('الرجاء إدخال كلمات رئيسية.'); return null; }
+                return { query: `استخدمي هذه النقاط لصياغة الملخص: "${points}"` };
+            }, "أنت معلمة رياض أطفال مرحة ومحبوبة. مهمتك هي صياغة ملخص قصير ومبهج لنهاية اليوم الدراسي، موجه للأطفال. استخدم لغة بسيطة وعبارات تشجيعية. ابدأ بـ 'أصدقائي الصغار الرائعون!' واختتم بـ 'لقد كنتم مدهشين اليوم! أراكم غدًا.'");
         });
 
-        forms.song.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const songTheme = document.getElementById('songTheme').value;
-            if (!songTheme.trim()) { alert('الرجاء إدخال موضوع للأنشودة.'); return; }
-            const { result, loader, resultText } = { result: results.song, loader: loaders.song, resultText: resultTexts.song };
-            result.classList.remove('hidden');
-            loader.classList.remove('hidden');
-            resultText.textContent = '';
-            const systemPrompt = "أنت شاعر وملحن متخصص في كتابة أغاني وأناشيد بسيطة وممتعة للأطفال بعمر 3-5 سنوات. يجب أن تكون الكلمات سهلة الحفظ واللحن المقترح بسيطاً ومرحاً. قدم الأنشودة في مقطعين قصيرين.";
-            const userQuery = `اكتب لي أنشودة قصيرة حول موضوع "${songTheme}".`;
-            try {
-                resultText.textContent = await generateTextWithRetry(systemPrompt, userQuery);
-                e.target.reset();
-            } catch (error) {
-                resultText.textContent = 'عذرًا، حدث خطأ أثناء كتابة الأنشودة. الرجاء المحاولة مرة أخرى.';
-            } finally {
-                loader.classList.add('hidden');
-            }
+        forms.lesson.addEventListener('submit', (e) => {
+            handleFormSubmit(e, 'lesson', form => {
+                const objective = form.querySelector('#lessonObjective').value;
+                const duration = form.querySelector('#lessonDuration').value;
+                if (!objective.trim()) { alert('الرجاء إدخال الهدف التعليمي.'); return null; }
+                return { query: `بناءً على الهدف: "${objective}"، ولمدة "${duration}"، قم بإنشاء خطة درس بسيطة باللغة العربية مقسمة إلى: 1. تهيئة، 2. نشاط رئيسي، 3. ختام.` };
+            }, "أنت خبير في تصميم المناهج للتعليم المبكر. مهمتك هي إنشاء خطط دروس قصيرة، تفاعلية، ومناسبة لنمو الأطفال.");
         });
 
-        forms.observation.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const observationText = document.getElementById('observationText').value;
-            if (!observationText.trim()) { alert('الرجاء إدخال ملاحظتك.'); return; }
-            const { result, loader, resultText } = { result: results.observation, loader: loaders.observation, resultText: resultTexts.observation };
-            result.classList.remove('hidden');
-            loader.classList.remove('hidden');
-            resultText.textContent = '';
-            const systemPrompt = "أنت خبير في تربية الطفولة المبكرة وعلم نفس النمو. مهمتك هي تحويل ملاحظة مختصرة وغير رسمية من معلمة إلى ملاحظة مهنية منظمة. يجب أن تكون الملاحظة إيجابية، موضوعية، وتربط السلوك المرصود بأحد مجالات النمو ذات الصلة (مثال: المهارات الحركية الدقيقة، التطور المعرفي، المهارات الاجتماعية والعاطفية، تطور اللغة). حافظ على أن يكون الناتج موجزاً ومنسقاً بوضوح.";
-            const userQuery = `بناءً على هذه الملاحظة المختصرة: "${observationText}"، الرجاء كتابة ملاحظة مهنية منظمة تتضمن وصفاً للسلوك وتفسيراً يربطه بأحد مجالات النمو.`;
-            try {
-                resultText.textContent = await generateTextWithRetry(systemPrompt, userQuery);
-                e.target.reset();
-            } catch (error) {
-                resultText.textContent = 'عذرًا، حدث خطأ أثناء معالجة الملاحظة. الرجاء المحاولة مرة أخرى.';
-            } finally {
-                loader.classList.add('hidden');
-            }
+        forms.song.addEventListener('submit', (e) => {
+            handleFormSubmit(e, 'song', form => {
+                const theme = form.querySelector('#songTheme').value;
+                if (!theme.trim()) { alert('الرجاء إدخال موضوع للأنشودة.'); return null; }
+                return { query: `اكتب لي أنشودة قصيرة حول موضوع "${theme}".` };
+            }, "أنت شاعر وملحن متخصص في كتابة أغاني وأناشيد بسيطة وممتعة للأطفال بعمر 3-5 سنوات. يجب أن تكون الكلمات سهلة الحفظ. قدم الأنشودة في مقطعين قصيرين.");
+        });
+
+        forms.observation.addEventListener('submit', (e) => {
+            handleFormSubmit(e, 'observation', form => {
+                const text = form.querySelector('#observationText').value;
+                if (!text.trim()) { alert('الرجاء إدخال ملاحظتك.'); return null; }
+                return { query: `بناءً على هذه الملاحظة: "${text}"، اكتب ملاحظة مهنية منظمة تربط السلوك بمجال نمائي.` };
+            }, "أنت خبير في تربية الطفولة المبكرة. مهمتك هي تحويل ملاحظة مختصرة إلى ملاحظة مهنية منظمة، إيجابية، وموضوعية تربط السلوك بمجال نمائي مناسب.");
         });
         
-        forms.conflict.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const conflictDescription = document.getElementById('conflictDescription').value;
-            if (!conflictDescription.trim()) { alert('الرجاء وصف النزاع.'); return; }
-            const { result, loader, resultText } = { result: results.conflict, loader: loaders.conflict, resultText: resultTexts.conflict };
-            result.classList.remove('hidden');
-            loader.classList.remove('hidden');
-            resultText.textContent = '';
-            const systemPrompt = "أنت موجه تربوي خبير في حل النزاعات بين الأطفال الصغار (3-5 سنوات). مهمتك هي تقديم خطوات عملية وهادئة يمكن للمعلمة استخدامها لتحويل النزاع إلى فرصة للتعلم الاجتماعي والعاطفي. استخدم لغة بسيطة وإيجابية.";
-            const userQuery = `لدينا هذا الموقف في الفصل: "${conflictDescription}". الرجاء تقديم خطة عمل من 3 خطوات بسيطة، مع أمثلة لعبارات يمكنني قولها للأطفال.`;
-            try {
-                resultText.textContent = await generateTextWithRetry(systemPrompt, userQuery);
-                e.target.reset();
-            } catch (error) {
-                resultText.textContent = 'عذرًا، حدث خطأ أثناء اقتراح الحل. الرجاء المحاولة مرة أخرى.';
-            } finally {
-                loader.classList.add('hidden');
-            }
+        forms.conflict.addEventListener('submit', (e) => {
+            handleFormSubmit(e, 'conflict', form => {
+                const description = form.querySelector('#conflictDescription').value;
+                if (!description.trim()) { alert('الرجاء وصف النزاع.'); return null; }
+                return { query: `لدينا هذا الموقف: "${description}". قدم خطة عمل من 3 خطوات بسيطة، مع أمثلة لعبارات يمكنني قولها للأطفال.` };
+            }, "أنت موجه تربوي خبير في حل النزاعات بين الأطفال الصغار. مهمتك هي تقديم خطوات عملية وهادئة لتحويل النزاع إلى فرصة للتعلم.");
         });
         
-        forms.objectives.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const objectivesActivity = document.getElementById('objectivesActivity').value;
-            if (!objectivesActivity.trim()) { alert('الرجاء وصف النشاط.'); return; }
-             const { result, loader, resultText } = { result: results.objectives, loader: loaders.objectives, resultText: resultTexts.objectives };
-            result.classList.remove('hidden');
-            loader.classList.remove('hidden');
-            resultText.textContent = '';
-            const systemPrompt = "أنت خبير في المناهج التربوية للتعليم الأولي، مع فهم عميق للإطار المنهاجي المغربي. مهمتك هي تحديد الأهداف التربوية الرئيسية التي يمكن تحقيقها من خلال نشاط معين.";
-            const userQuery = `بالنسبة للنشاط التالي: "${objectivesActivity}"، الرجاء تحديد 2-3 أهداف تربوية أساسية ينميها هذا النشاط لدى الأطفال. قدمها في قائمة نقطية واضحة.`;
-            try {
-                resultText.textContent = await generateTextWithRetry(systemPrompt, userQuery);
-                e.target.reset();
-            } catch (error) {
-                resultText.textContent = 'عذرًا، حدث خطأ أثناء تحديد الأهداف. الرجاء المحاولة مرة أخرى.';
-            } finally {
-                loader.classList.add('hidden');
-            }
+        forms.objectives.addEventListener('submit', (e) => {
+            handleFormSubmit(e, 'objectives', form => {
+                const activity = form.querySelector('#objectivesActivity').value;
+                if (!activity.trim()) { alert('الرجاء وصف النشاط.'); return null; }
+                return { query: `بالنسبة للنشاط: "${activity}"، حدد 2-3 أهداف تربوية أساسية ينميها هذا النشاط. قدمها في قائمة نقطية.` };
+            }, "أنت خبير في المناهج التربوية للتعليم الأولي. مهمتك هي تحديد الأهداف التربوية الرئيسية التي يمكن تحقيقها من خلال نشاط معين.");
         });
         
-        forms.questions.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const questionsTopic = document.getElementById('questionsTopic').value;
-            if (!questionsTopic.trim()) { alert('الرجاء إدخال الموضوع.'); return; }
-            const { result, loader, resultText } = { result: results.questions, loader: loaders.questions, resultText: resultTexts.questions };
-            result.classList.remove('hidden');
-            loader.classList.remove('hidden');
-            resultText.textContent = '';
-            const systemPrompt = "أنت مربية أطفال ماهرة في إثارة فضول الأطفال وتشجيع التفكير النقدي. مهمتك هي صياغة أسئلة مفتوحة ومحفزة للحوار.";
-            const userQuery = `حول موضوع أو نشاط "${questionsTopic}"، اقترح 4-5 أسئلة مفتوحة ومناسبة للأطفال (عمر 3-5 سنوات) يمكنني استخدامها لبدء حوار معهم وتعميق فهمهم.`;
-            try {
-                resultText.textContent = await generateTextWithRetry(systemPrompt, userQuery);
-                e.target.reset();
-            } catch (error) {
-                resultText.textContent = 'عذرًا، حدث خطأ أثناء توليد الأسئلة. الرجاء المحاولة مرة أخرى.';
-            } finally {
-                loader.classList.add('hidden');
-            }
+        forms.questions.addEventListener('submit', (e) => {
+            handleFormSubmit(e, 'questions', form => {
+                const topic = form.querySelector('#questionsTopic').value;
+                if (!topic.trim()) { alert('الرجاء إدخال الموضوع.'); return null; }
+                return { query: `حول موضوع "${topic}"، اقترح 4-5 أسئلة مفتوحة ومناسبة للأطفال لإثارة فضولهم.` };
+            }, "أنت مربية ماهرة في إثارة فضول الأطفال. مهمتك هي صياغة أسئلة مفتوحة ومحفزة للحوار.");
         });
         
-        forms.unit.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const theme = document.getElementById('unitTheme').value;
-            const duration = document.getElementById('unitDuration').value;
-            if (!theme.trim()) { alert('الرجاء إدخال موضوع للوحدة.'); return; }
-            const { result, loader, resultText } = { result: results.unit, loader: loaders.unit, resultText: resultTexts.unit };
-            result.classList.remove('hidden');
-            loader.classList.remove('hidden');
-            resultText.textContent = '';
-            const systemPrompt = "أنت خبير في تخطيط المناهج للتعليم الأولي. مهمتك هي إنشاء خطط وحدات دراسية متكاملة وممتعة للأطفال بعمر 3-5 سنوات، ترتكز على التعلم عبر اللعب والاستكشاف.";
-            const userQuery = `بناءً على الموضوع التالي: "${theme}"، ولمدة "${duration}"، قم بإنشاء مخطط وحدة دراسية. يجب أن يتضمن المخطط اقتراحات يومية لأنشطة رئيسية، وأفكاراً لأعمال فنية، وقصة مقترحة، وأنشودة، وبعض المفردات الأساسية المتعلقة بالموضوع.`;
-            try {
-                resultText.textContent = await generateTextWithRetry(systemPrompt, userQuery);
-                e.target.reset();
-            } catch (error) {
-                resultText.textContent = 'عذرًا، حدث خطأ أثناء إنشاء المخطط. الرجاء المحاولة مرة أخرى.';
-            } finally {
-                loader.classList.add('hidden');
-            }
+        forms.unit.addEventListener('submit', (e) => {
+            handleFormSubmit(e, 'unit', form => {
+                const theme = form.querySelector('#unitTheme').value;
+                const duration = form.querySelector('#unitDuration').value;
+                if (!theme.trim()) { alert('الرجاء إدخال موضوع للوحدة.'); return null; }
+                return { query: `بناءً على موضوع "${theme}"، ولمدة "${duration}"، أنشئ مخطط وحدة دراسية يتضمن أنشطة يومية، أعمال فنية، قصة، أنشودة، ومفردات أساسية.` };
+            }, "أنت خبير في تخطيط المناهج للتعليم الأولي. مهمتك هي إنشاء خطط وحدات دراسية متكاملة وممتعة.");
         });
-
-
-        const getScheduleAsText = () => {
-            // This function is no longer needed as the schedule is removed, but we keep it for the support modal
-            return "جدول يومي يتضمن استقبال، أنشطة، استراحة، وداع.";
-        };
-
-
-        forms.support.addEventListener('submit', async (e) => {
+        
+        forms.transition.addEventListener('submit', (e) => {
+            handleFormSubmit(e, 'transition', form => {
+                const description = form.querySelector('#transitionDescription').value;
+                if (!description.trim()) { alert('الرجاء وصف الموقف.'); return null; }
+                return { query: `أحتاج فكرة للانتقال من "${description}". اقترح لعبة سريعة أو أغنية قصيرة.` };
+            }, "أنت مربية خبيرة في إدارة الفصل. مهمتك هي تقديم أفكار قصيرة ومرحة لجعل فترات الانتقال بين الأنشطة سلسة.");
+        });
+        
+        forms.roleplay.addEventListener('submit', (e) => {
+            handleFormSubmit(e, 'roleplay', form => {
+                const skill = form.querySelector('#roleplaySkill').value;
+                if (!skill.trim()) { alert('الرجاء وصف المهارة.'); return null; }
+                return { query: `أحتاج سيناريو لعب أدوار لتعليم الأطفال كيفية "${skill}". قدم السيناريو مع تحديد الأدوار وعبارات بسيطة.` };
+            }, "أنت خبير في علم نفس الطفل والتعلم الاجتماعي العاطفي. مهمتك هي إنشاء سيناريوهات لعب أدوار بسيطة وموجزة للأطفال.");
+        });
+        
+        forms.support.addEventListener('submit', (e) => {
             e.preventDefault();
             const supportNeeds = document.getElementById('supportNeeds').value;
             if (!supportNeeds.trim()) { alert('الرجاء وصف احتياج الطفل.'); return; }
@@ -827,34 +772,13 @@
             result.classList.remove('hidden');
             loader.classList.remove('hidden');
             resultText.textContent = '';
-            const scheduleContext = getScheduleAsText();
-            const systemPrompt = "أنت خبير في تربية الطفولة المبكرة وعلم نفس النمو. مهمتك هي تقديم توصيات مخصصة لتكييف جدول دراسي يومي لتلبية احتياجات طفل معين. يجب أن تكون الاقتراحات عملية وقابلة للتنفيذ في بيئة الفصل الدراسي.";
-            const userQuery = `بالنظر إلى جدول يومي قياسي، الرجاء اقتراح 3-4 تعديلات بسيطة وعملية لدعم طفل لديه الاحتياجات التالية بشكل أفضل: "${supportNeeds}". قدم الاقتراحات كقائمة نقطية واضحة باللغة العربية.`;
+            const systemPrompt = "أنت خبير في تربية الطفولة المبكرة وعلم نفس النمو. مهمتك هي تقديم توصيات مخصصة وعملية لدعم طفل معين.";
+            const userQuery = `بالنظر إلى جدول يومي قياسي، اقترح 3-4 تعديلات بسيطة وعملية لدعم طفل لديه الاحتياجات التالية: "${supportNeeds}". قدم الاقتراحات كقائمة نقطية.`;
             try {
                 resultText.textContent = await generateTextWithRetry(systemPrompt, userQuery);
                 e.target.reset();
             } catch (error) {
                 resultText.textContent = 'عذرًا، حدث خطأ أثناء إنشاء الخطة. الرجاء المحاولة مرة أخرى.';
-            } finally {
-                loader.classList.add('hidden');
-            }
-        });
-        
-        forms.transition.addEventListener('submit', async(e) => {
-            e.preventDefault();
-            const transitionDescription = document.getElementById('transitionDescription').value;
-            if (!transitionDescription.trim()) { alert('الرجاء وصف الموقف الانتقالي.'); return; }
-            const { result, loader, resultText } = { result: results.transition, loader: loaders.transition, resultText: resultTexts.transition };
-            result.classList.remove('hidden');
-            loader.classList.remove('hidden');
-            resultText.textContent = '';
-            const systemPrompt = "أنت مربية أطفال خبيرة ومتخصصة في إدارة الفصل الدراسي الإيجابية. مهمتك هي تقديم أفكار قصيرة ومبتكرة ومرحة لجعل فترات الانتقال بين الأنشطة سلسة وممتعة للأطفال بعمر 3-5 سنوات.";
-            const userQuery = `أحتاج فكرة للانتقال من "${transitionDescription}". اقترح لعبة سريعة أو أغنية قصيرة أو تعليمات إبداعية.`;
-            try {
-                resultText.textContent = await generateTextWithRetry(systemPrompt, userQuery);
-                e.target.reset();
-            } catch (error) {
-                resultText.textContent = 'عذرًا، حدث خطأ أثناء اقتراح الفكرة. الرجاء المحاولة مرة أخرى.';
             } finally {
                 loader.classList.add('hidden');
             }
@@ -870,11 +794,11 @@
             document.getElementById('storyImage').src = '';
             document.getElementById('generateImageBtn').disabled = true;
 
-            const promptGenSystemPrompt = "You are an expert prompt engineer for AI image generation models. Your task is to create a simple, effective prompt based on a short children's story.";
-            const promptGenUserQuery = `From the following children's story, create a simple image prompt. The prompt should describe the main scene or character in a 'simple, colorful, and friendly cartoon illustration style for a children's book'. Story: "${storyText}"`;
+            const promptGenSystemPrompt = "You are an expert prompt engineer. Your task is to create a simple, effective prompt based on a children's story.";
+            const promptGenUserQuery = `From this story, create a prompt for an image in a 'simple, colorful, friendly cartoon style for a children's book'. Story: "${storyText}"`;
 
             try {
-                const imagePrompt = await generateTextWithRetry(promptGenSystemPrompt, userQuery);
+                const imagePrompt = await generateTextWithRetry(promptGenSystemPrompt, promptGenUserQuery);
                 const base64Data = await generateImageWithRetry(imagePrompt);
                 document.getElementById('storyImage').src = `data:image/png;base64,${base64Data}`;
             } catch(error) {
