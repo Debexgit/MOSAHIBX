@@ -1,0 +1,24 @@
+body {
+    font-family: 'Cairo', sans-serif;
+}
+.tab-btn {
+    padding: 1rem;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    font-weight: 600;
+    color: #4a5568;
+}
+.tab-btn.active {
+    color: #2d9d92;
+    border-bottom-color: #2d9d92;
+}
+.tab-content {
+    display: none;
+}
+.tab-content.active {
+    display: block;
+}
+#generate-btn:disabled {
+    background-color: #a0aec0;
+    cursor: not-allowed;
+}

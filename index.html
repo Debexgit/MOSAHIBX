@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مُصاحب - مخطط الدروس</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div id="app" class="w-full max-w-md mx-auto">
+        <div class="bg-white rounded-lg shadow-lg p-6 relative">
+            <button id="close-modal" class="absolute top-4 left-4 text-gray-400 hover:text-gray-600">&times;</button>
+            <div class="text-center">
+                <div class="flex justify-center items-center space-x-4 space-x-reverse border-b">
+                    <button class="tab-btn active" data-tab="lessons">الدروس</button>
+                    <button class="tab-btn" data-tab="activities">الأنشطة</button>
+                </div>
+            </div>
+            <div id="lessons-tab" class="tab-content active">
+                <h2 class="text-xl font-bold text-center my-4">مُخطِّط الدروس</h2>
+                <div>
+                    <label for="objective" class="block text-sm font-medium text-gray-700">الهدف التعليمي:</label>
+                    <input type="text" id="objective" placeholder="مثال: تعلم الأرقام حتى 5" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
+                </div>
+                <div class="mt-4">
+                    <label for="duration" class="block text-sm font-medium text-gray-700">المدة الزمنية التقريبية:</label>
+                    <input type="text" id="duration" value="15 دقيقة" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
+                </div>
+                <button id="generate-btn" class="mt-6 w-full bg-teal-500 text-white py-2 px-4 rounded-md hover:bg-teal-600 flex items-center justify-center">
+                    <span class="ml-2">إنشاء خطة الدرس</span> ✨
+                </button>
+                <div id="result" class="mt-4 p-4 bg-gray-50 rounded-md hidden">
+                    <h3 class="font-bold">خطة الدرس المقترحة:</h3>
+                    <div id="result-text" class="text-gray-700 mt-2 whitespace-pre-wrap"></div>
+                    <button id="copy-btn" class="mt-4 w-full bg-gray-200 text-gray-800 py-2 px-4 rounded-md hover:bg-gray-300">نسخ النص</button>
+                </div>
+                 <div id="error-message" class="mt-4 p-4 bg-red-100 text-red-700 rounded-md hidden"></div>
+            </div>
+            <div id="activities-tab" class="tab-content">
+                <p class="text-center p-8 text-gray-500">قسم الأنشطة قيد التطوير.</p>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
