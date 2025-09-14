@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مصاحب: مساعدك التربوي الذكي</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -29,12 +28,22 @@
         }
         .gemini-tab {
             transition: all 0.3s ease;
-            border-bottom: 3px solid transparent;
-            color: #6b7280;
+            color: #4b5563;
         }
-        .gemini-tab.active, .gemini-tab:hover {
-            border-bottom-color: #14b8a6;
+        .gemini-tab:hover {
             color: #14b8a6;
+        }
+        .gemini-tab.active {
+           color: #14b8a6;
+           font-weight: 700;
+        }
+        .tool-group h3 {
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #374151;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 0.5rem;
         }
     </style>
 </head>
@@ -51,27 +60,49 @@
         <main>
 
             <section id="gemini-assistant">
-                <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 text-center">
-                     <h2 class="text-3xl font-bold text-teal-600 mb-4">🤖 اختر أداتك الذكية</h2>
-                     <p class="text-lg text-gray-700 max-w-3xl mx-auto mb-8">
+                <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+                     <h2 class="text-3xl font-bold text-teal-600 mb-4 text-center">🤖 اختر أداتك الذكية</h2>
+                     <p class="text-lg text-gray-700 max-w-3xl mx-auto mb-8 text-center">
                         أدوات إبداعية تحت تصرفك. اختر إحدى المهام أدناه ودع الذكاء الاصطناعي يساعدك في التخطيط والإبداع.
                     </p>
-                    <div class="border-b border-gray-200">
-                        <div class="flex flex-wrap justify-center -mb-px gap-2 md:gap-4">
-                            <button data-modal="unit" class="gemini-tab font-semibold text-lg py-3 px-4">📅 مخطط الوحدات</button>
-                            <button data-modal="lesson" class="gemini-tab font-semibold text-lg py-3 px-4">✨ الدروس</button>
-                            <button data-modal="objectives" class="gemini-tab font-semibold text-lg py-3 px-4">🎯 الأهداف</button>
-                            <button data-modal="activity" class="gemini-tab font-semibold text-lg py-3 px-4">💡 الأنشطة</button>
-                            <button data-modal="story" class="gemini-tab font-semibold text-lg py-3 px-4">📖 القصص</button>
-                            <button data-modal="song" class="gemini-tab font-semibold text-lg py-3 px-4">🎶 الأناشيد</button>
-                            <button data-modal="questions" class="gemini-tab font-semibold text-lg py-3 px-4">🤔 أسئلة</button>
-                            <button data-modal="transition" class="gemini-tab font-semibold text-lg py-3 px-4">🚀 الانتقالات</button>
-                            <button data-modal="conflict" class="gemini-tab font-semibold text-lg py-3 px-4">🗣️ النزاعات</button>
-                            <button data-modal="roleplay" class="gemini-tab font-semibold text-lg py-3 px-4">🎭 لعب الأدوار</button>
-                            <button data-modal="observation" class="gemini-tab font-semibold text-lg py-3 px-4">📋 الملاحظات</button>
-                            <button data-modal="communication" class="gemini-tab font-semibold text-lg py-3 px-4">✉️ رسائل</button>
-                            <button data-modal="summary" class="gemini-tab font-semibold text-lg py-3 px-4">📝 الملخص</button>
-                            <button data-modal="support" class="gemini-tab font-semibold text-lg py-3 px-4">🤝 الدعم</button>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div class="tool-group">
+                            <h3>التخطيط</h3>
+                            <div class="flex flex-col items-start gap-3">
+                                <button data-modal="unit" class="gemini-tab font-semibold text-lg py-2">📅 مخطط الوحدات</button>
+                                <button data-modal="lesson" class="gemini-tab font-semibold text-lg py-2">✨ مخطط الدروس</button>
+                                <button data-modal="objectives" class="gemini-tab font-semibold text-lg py-2">🎯 مساعد الأهداف</button>
+                                <button data-modal="corners" class="gemini-tab font-semibold text-lg py-2">🧩 مقترح الأركان</button>
+                            </div>
+                        </div>
+                         <div class="tool-group">
+                            <h3>إنشاء المحتوى</h3>
+                            <div class="flex flex-col items-start gap-3">
+                                <button data-modal="activity" class="gemini-tab font-semibold text-lg py-2">💡 مولّد الأنشطة</button>
+                                <button data-modal="story" class="gemini-tab font-semibold text-lg py-2">📖 مولّد القصص</button>
+                                <button data-modal="song" class="gemini-tab font-semibold text-lg py-2">🎶 مولّد الأناشيد</button>
+                                <button data-modal="questions" class="gemini-tab font-semibold text-lg py-2">🤔 مولّد الأسئلة</button>
+                                <button data-modal="flashcard" class="gemini-tab font-semibold text-lg py-2">📇 منشئ البطاقات</button>
+                            </div>
+                        </div>
+                         <div class="tool-group">
+                            <h3>إدارة الفصل</h3>
+                            <div class="flex flex-col items-start gap-3">
+                                <button data-modal="transition" class="gemini-tab font-semibold text-lg py-2">🚀 مساعد الانتقالات</button>
+                                <button data-modal="conflict" class="gemini-tab font-semibold text-lg py-2">🗣️ مساعد النزاعات</button>
+                                <button data-modal="roleplay" class="gemini-tab font-semibold text-lg py-2">🎭 لعب الأدوار</button>
+                                <button data-modal="differentiation" class="gemini-tab font-semibold text-lg py-2">🔧 مكيف الأنشطة</button>
+                                <button data-modal="support" class="gemini-tab font-semibold text-lg py-2">🤝 الدعم الفردي</button>
+                            </div>
+                        </div>
+                         <div class="tool-group">
+                            <h3>المتابعة والتواصل</h3>
+                            <div class="flex flex-col items-start gap-3">
+                                <button data-modal="observation" class="gemini-tab font-semibold text-lg py-2">📋 تدوين الملاحظات</button>
+                                <button data-modal="communication" class="gemini-tab font-semibold text-lg py-2">✉️ رسائل للأهل</button>
+                                <button data-modal="parent" class="gemini-tab font-semibold text-lg py-2">🏡 أنشطة منزلية</button>
+                                <button data-modal="summary" class="gemini-tab font-semibold text-lg py-2">📝 ملخص اليوم</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -88,7 +119,7 @@
     <div data-modal-id="unit" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
         <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
             <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600">مخطط الوحدات الدراسية</h3>
+            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">📅 مخطط الوحدات الدراسية</h3>
             <form id="unitForm">
                  <div class="mb-4">
                     <label for="unitTheme" class="block text-gray-700 text-sm font-bold mb-2">موضوع الوحدة:</label>
@@ -121,7 +152,7 @@
     <div data-modal-id="activity" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
         <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
             <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600">توليد فكرة نشاط</h3>
+            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">💡 توليد فكرة نشاط</h3>
             <form id="activityForm">
                 <div class="mb-4">
                     <label for="activityType" class="block text-gray-700 text-sm font-bold mb-2">نوع النشاط:</label>
@@ -151,7 +182,7 @@
     <div data-modal-id="communication" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
         <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
             <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600">صياغة رسالة لولي الأمر</h3>
+            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">✉️ صياغة رسالة لولي الأمر</h3>
             <form id="communicationForm">
                 <div class="mb-4">
                      <label for="commTone" class="block text-gray-700 text-sm font-bold mb-2">نبرة الرسالة:</label>
@@ -184,7 +215,7 @@
     <div data-modal-id="story" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
         <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
             <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600">إنشاء قصة مصورة</h3>
+            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">📖 إنشاء قصة مصورة</h3>
             <form id="storyForm">
                 <div class="mb-4">
                     <label for="storyCharacter" class="block text-gray-700 text-sm font-bold mb-2">اسم الشخصية الرئيسية:</label>
@@ -222,7 +253,7 @@
     <div data-modal-id="summary" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
         <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
             <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600">إنشاء ملخص اليوم</h3>
+            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">📝 إنشاء ملخص اليوم</h3>
             <form id="summaryForm">
                 <div class="mb-6">
                     <label for="summaryPoints" class="block text-gray-700 text-sm font-bold mb-2">الكلمات الرئيسية من أنشطة اليوم:</label>
@@ -247,7 +278,7 @@
     <div data-modal-id="support" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
         <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
             <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600">مُخطِّط الدعم الفردي</h3>
+            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">🤝 مُخطِّط الدعم الفردي</h3>
             <form id="supportForm">
                 <div class="mb-6">
                     <label for="supportNeeds" class="block text-gray-700 text-sm font-bold mb-2">صف باختصار سلوك أو احتياج الطفل:</label>
@@ -272,7 +303,7 @@
     <div data-modal-id="lesson" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
         <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
             <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600">مُخطِّط الدروس</h3>
+            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">✨ مُخطِّط الدروس</h3>
             <form id="lessonForm">
                  <div class="mb-4">
                     <label for="lessonObjective" class="block text-gray-700 text-sm font-bold mb-2">الهدف التعليمي:</label>
@@ -305,7 +336,7 @@
     <div data-modal-id="song" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
         <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
             <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600">مولّد الأناشيد</h3>
+            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">🎶 مولّد الأناشيد</h3>
             <form id="songForm">
                  <div class="mb-6">
                     <label for="songTheme" class="block text-gray-700 text-sm font-bold mb-2">موضوع الأنشودة:</label>
@@ -330,7 +361,7 @@
     <div data-modal-id="observation" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
         <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
             <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600">مساعد تدوين الملاحظات</h3>
+            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">📋 مساعد تدوين الملاحظات</h3>
             <form id="observationForm">
                  <div class="mb-6">
                     <label for="observationText" class="block text-gray-700 text-sm font-bold mb-2">أدخل ملاحظتك السريعة:</label>
@@ -355,7 +386,7 @@
     <div data-modal-id="conflict" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
         <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
             <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600">مساعد حل النزاعات</h3>
+            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">🗣️ مساعد حل النزاعات</h3>
             <form id="conflictForm">
                  <div class="mb-6">
                     <label for="conflictDescription" class="block text-gray-700 text-sm font-bold mb-2">صف النزاع باختصار:</label>
@@ -380,7 +411,7 @@
      <div data-modal-id="objectives" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
         <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
             <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600">مساعد تحديد الأهداف</h3>
+            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">🎯 مساعد تحديد الأهداف</h3>
             <form id="objectivesForm">
                  <div class="mb-6">
                     <label for="objectivesActivity" class="block text-gray-700 text-sm font-bold mb-2">صف النشاط باختصار:</label>
@@ -405,7 +436,7 @@
      <div data-modal-id="questions" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
         <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
             <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600">مولّد الأسئلة المحفزة</h3>
+            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">🤔 مولّد الأسئلة المحفزة</h3>
             <form id="questionsForm">
                  <div class="mb-6">
                     <label for="questionsTopic" class="block text-gray-700 text-sm font-bold mb-2">أدخل موضوع النشاط أو الحوار:</label>
@@ -430,7 +461,7 @@
     <div data-modal-id="transition" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
         <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
             <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600">مساعد الانتقالات</h3>
+            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">🚀 مساعد الانتقالات</h3>
             <form id="transitionForm">
                  <div class="mb-6">
                     <label for="transitionDescription" class="block text-gray-700 text-sm font-bold mb-2">صف الموقف الانتقالي:</label>
@@ -455,7 +486,7 @@
     <div data-modal-id="roleplay" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
         <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
             <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600">مولّد سيناريوهات لعب الأدوار</h3>
+            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">🎭 مولّد سيناريوهات لعب الأدوار</h3>
             <form id="roleplayForm">
                  <div class="mb-6">
                     <label for="roleplaySkill" class="block text-gray-700 text-sm font-bold mb-2">صف المهارة الاجتماعية أو الموقف:</label>
@@ -477,9 +508,130 @@
             </div>
         </div>
     </div>
+    <div data-modal-id="parent" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
+            <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">🏡 مساعد الأنشطة المنزلية</h3>
+            <form id="parentForm">
+                 <div class="mb-6">
+                    <label for="parentTopic" class="block text-gray-700 text-sm font-bold mb-2">ماذا تعلم الأطفال في الفصل اليوم؟</label>
+                    <textarea id="parentTopic" rows="3" placeholder="مثال: تعرفنا على الأشكال الهندسية، تعلمنا عن دورة حياة الفراشة..." class="shadow-sm appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500"></textarea>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="bg-teal-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-teal-600 transition-colors">
+                        💡 اقتراح نشاط منزلي
+                    </button>
+                </div>
+            </form>
+            <div id="parentResult" class="mt-6 hidden">
+                <div class="flex justify-between items-center mb-2">
+                    <h4 class="text-xl font-bold text-gray-800">رسالة مقترحة للأهل:</h4>
+                    <button class="copy-btn bg-slate-200 text-slate-700 text-sm py-1 px-3 rounded-md hover:bg-slate-300">نسخ النص</button>
+                </div>
+                <div id="parentLoader" class="loader mx-auto my-4 hidden"></div>
+                <pre id="parentResultText" class="bg-slate-100 p-4 rounded-lg whitespace-pre-wrap text-right font-sans"></pre>
+            </div>
+        </div>
+    </div>
+    <div data-modal-id="flashcard" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
+            <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">📇 منشئ بطاقات الكلمات</h3>
+            <form id="flashcardForm">
+                 <div class="mb-6">
+                    <label for="flashcardTopic" class="block text-gray-700 text-sm font-bold mb-2">أدخل موضوع البطاقات:</label>
+                    <input type="text" id="flashcardTopic" placeholder="مثال: حيوانات المزرعة، وسائل النقل..." class="shadow-sm appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500">
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="bg-teal-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-teal-600 transition-colors">
+                        ✨ إنشاء بطاقات
+                    </button>
+                </div>
+            </form>
+            <div id="flashcardResult" class="mt-6 hidden">
+                <div class="flex justify-between items-center mb-2">
+                    <h4 class="text-xl font-bold text-gray-800">محتوى البطاقات المقترح:</h4>
+                    <button class="copy-btn bg-slate-200 text-slate-700 text-sm py-1 px-3 rounded-md hover:bg-slate-300">نسخ النص</button>
+                </div>
+                <div id="flashcardLoader" class="loader mx-auto my-4 hidden"></div>
+                <pre id="flashcardResultText" class="bg-slate-100 p-4 rounded-lg whitespace-pre-wrap text-right font-sans"></pre>
+            </div>
+        </div>
+    </div>
+    <div data-modal-id="corners" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
+            <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">🧩 مقترح الأركان التربوية</h3>
+            <form id="cornersForm">
+                 <div class="mb-6">
+                    <label for="cornersTheme" class="block text-gray-700 text-sm font-bold mb-2">أدخل موضوع الوحدة الدراسية:</label>
+                    <input type="text" id="cornersTheme" placeholder="مثال: الفضاء، عالم البحار..." class="shadow-sm appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500">
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="bg-teal-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-teal-600 transition-colors">
+                        💡 توليد أفكار للأركان
+                    </button>
+                </div>
+            </form>
+            <div id="cornersResult" class="mt-6 hidden">
+                <div class="flex justify-between items-center mb-2">
+                    <h4 class="text-xl font-bold text-gray-800">أفكار مقترحة للأركان:</h4>
+                    <button class="copy-btn bg-slate-200 text-slate-700 text-sm py-1 px-3 rounded-md hover:bg-slate-300">نسخ النص</button>
+                </div>
+                <div id="cornersLoader" class="loader mx-auto my-4 hidden"></div>
+                <pre id="cornersResultText" class="bg-slate-100 p-4 rounded-lg whitespace-pre-wrap text-right font-sans"></pre>
+            </div>
+        </div>
+    </div>
+    <div data-modal-id="differentiation" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
+            <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">🔧 مكيف الأنشطة</h3>
+            <form id="differentiationForm">
+                 <div class="mb-4">
+                    <label for="diffActivity" class="block text-gray-700 text-sm font-bold mb-2">صف النشاط الأصلي:</label>
+                    <textarea id="diffActivity" rows="3" placeholder="مثال: قص شريط من الورق على خط مستقيم..." class="shadow-sm appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500"></textarea>
+                </div>
+                <div class="mb-6">
+                    <label for="diffGoal" class="block text-gray-700 text-sm font-bold mb-2">اختر الهدف:</label>
+                    <select id="diffGoal" class="block appearance-none w-full bg-gray-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                        <option value="اجعله أبسط">جعله أبسط (Simplification)</option>
+                        <option value="اجعله أكثر تحديًا">جعله أكثر تحديًا (Enrichment)</option>
+                    </select>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="bg-teal-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-teal-600 transition-colors">
+                        ✨ تكييف النشاط
+                    </button>
+                </div>
+            </form>
+            <div id="differentiationResult" class="mt-6 hidden">
+                <div class="flex justify-between items-center mb-2">
+                    <h4 class="text-xl font-bold text-gray-800">اقتراحات التكييف:</h4>
+                    <button class="copy-btn bg-slate-200 text-slate-700 text-sm py-1 px-3 rounded-md hover:bg-slate-300">نسخ النص</button>
+                </div>
+                <div id="differentiationLoader" class="loader mx-auto my-4 hidden"></div>
+                <pre id="differentiationResultText" class="bg-slate-100 p-4 rounded-lg whitespace-pre-wrap text-right font-sans"></pre>
+            </div>
+        </div>
+    </div>
     
     <script>
-        const apiKey = "";
+        const apiKey = "curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent" \
+  -H 'Content-Type: application/json' \
+  -H 'X-goog-api-key: GEMINI_API_KEY' \
+  -X POST \
+  -d '{
+    "contents": [
+      {
+        "parts": [
+          {
+            "text": "Explain how AI works in a few words"
+          }
+        ]
+      }
+    ]
+  }'";
         const textApiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
         const imageApiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
         
@@ -529,7 +681,11 @@
             questions: document.getElementById('questionsForm'),
             unit: document.getElementById('unitForm'),
             transition: document.getElementById('transitionForm'),
-            roleplay: document.getElementById('roleplayForm')
+            roleplay: document.getElementById('roleplayForm'),
+            parent: document.getElementById('parentForm'),
+            flashcard: document.getElementById('flashcardForm'),
+            corners: document.getElementById('cornersForm'),
+            differentiation: document.getElementById('differentiationForm')
         };
 
         const results = {
@@ -546,7 +702,11 @@
             questions: document.getElementById('questionsResult'),
             unit: document.getElementById('unitResult'),
             transition: document.getElementById('transitionResult'),
-            roleplay: document.getElementById('roleplayResult')
+            roleplay: document.getElementById('roleplayResult'),
+            parent: document.getElementById('parentResult'),
+            flashcard: document.getElementById('flashcardResult'),
+            corners: document.getElementById('cornersResult'),
+            differentiation: document.getElementById('differentiationResult')
         };
         
         const resultTexts = {
@@ -563,7 +723,11 @@
             questions: document.getElementById('questionsResultText'),
             unit: document.getElementById('unitResultText'),
             transition: document.getElementById('transitionResultText'),
-            roleplay: document.getElementById('roleplayResultText')
+            roleplay: document.getElementById('roleplayResultText'),
+            parent: document.getElementById('parentResultText'),
+            flashcard: document.getElementById('flashcardResultText'),
+            corners: document.getElementById('cornersResultText'),
+            differentiation: document.getElementById('differentiationResultText')
         };
         
         const loaders = {
@@ -581,6 +745,10 @@
             unit: document.getElementById('unitLoader'),
             transition: document.getElementById('transitionLoader'),
             roleplay: document.getElementById('roleplayLoader'),
+            parent: document.getElementById('parentLoader'),
+            flashcard: document.getElementById('flashcardLoader'),
+            corners: document.getElementById('cornersLoader'),
+            differentiation: document.getElementById('differentiationLoader'),
             image: document.getElementById('imageLoader')
         };
 
@@ -611,7 +779,6 @@
             });
         });
         
-        // --- Form Submission Logic ---
         async function handleFormSubmit(e, formType, userQueryBuilder, systemPrompt) {
             e.preventDefault();
             const { form, result, loader, resultText } = { 
@@ -638,24 +805,19 @@
             }
         }
 
-        // Event Listeners using the handler
-        forms.activity.addEventListener('submit', (e) => {
-            handleFormSubmit(e, 'activity', form => {
-                const type = form.querySelector('#activityType').value;
-                const theme = form.querySelector('#activityTheme').value;
-                if (!theme.trim()) { alert('الرجاء إدخال موضوع للنشاط.'); return null; }
-                return { query: `اقترح لي ${type} حول موضوع "${theme}". قدم شرحًا موجزًا للخطوات والمواد اللازمة إن وجدت.` };
-            }, "أنت مربية أطفال خبيرة ومبدعة. مهمتك هي اقتراح أنشطة بسيطة وممتعة للأطفال بعمر 3-5 سنوات. الاقتراحات يجب أن تكون واضحة، قصيرة، ومناسبة لبيئة روضة الأطفال.");
-        });
+        forms.activity.addEventListener('submit', (e) => handleFormSubmit(e, 'activity', form => {
+            const type = form.querySelector('#activityType').value;
+            const theme = form.querySelector('#activityTheme').value;
+            if (!theme.trim()) { alert('الرجاء إدخال موضوع للنشاط.'); return null; }
+            return { query: `اقترح لي ${type} حول موضوع "${theme}". قدم شرحًا موجزًا للخطوات والمواد اللازمة إن وجدت.` };
+        }, "أنت مربية أطفال خبيرة ومبدعة. مهمتك هي اقتراح أنشطة بسيطة وممتعة للأطفال بعمر 3-5 سنوات. الاقتراحات يجب أن تكون واضحة، قصيرة، ومناسبة لبيئة روضة الأطفال."));
 
-        forms.communication.addEventListener('submit', (e) => {
-            handleFormSubmit(e, 'communication', form => {
-                const tone = form.querySelector('#commTone').value;
-                const points = form.querySelector('#commPoints').value;
-                if (!points.trim()) { alert('الرجاء إدخال ملاحظات عن يوم الطفل.'); return null; }
-                return { query: `بناءً على الملاحظات التالية عن يوم الطفل: "${points}"، الرجاء صياغة مسودة رسالة لولي الأمر بنبرة "${tone}".` };
-            }, "أنت مساعد لمعلمة رياض أطفال، تتمتع بالخبرة واللطف. مهمتك هي صياغة رسائل احترافية ودافئة لأولياء الأمور باللغة العربية. يجب أن تكون الرسائل موجزة وإيجابية.");
-        });
+        forms.communication.addEventListener('submit', (e) => handleFormSubmit(e, 'communication', form => {
+            const tone = form.querySelector('#commTone').value;
+            const points = form.querySelector('#commPoints').value;
+            if (!points.trim()) { alert('الرجاء إدخال ملاحظات عن يوم الطفل.'); return null; }
+            return { query: `بناءً على الملاحظات التالية عن يوم الطفل: "${points}"، الرجاء صياغة مسودة رسالة لولي الأمر بنبرة "${tone}".` };
+        }, "أنت مساعد لمعلمة رياض أطفال، تتمتع بالخبرة واللطف. مهمتك هي صياغة رسائل احترافية ودافئة لأولياء الأمور باللغة العربية. يجب أن تكون الرسائل موجزة وإيجابية."));
 
         forms.story.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -682,89 +844,94 @@
             }
         });
 
-        forms.summary.addEventListener('submit', (e) => {
-            handleFormSubmit(e, 'summary', form => {
-                const points = form.querySelector('#summaryPoints').value;
-                if (!points.trim()) { alert('الرجاء إدخال كلمات رئيسية.'); return null; }
-                return { query: `استخدمي هذه النقاط لصياغة الملخص: "${points}"` };
-            }, "أنت معلمة رياض أطفال مرحة ومحبوبة. مهمتك هي صياغة ملخص قصير ومبهج لنهاية اليوم الدراسي، موجه للأطفال. استخدم لغة بسيطة وعبارات تشجيعية. ابدأ بـ 'أصدقائي الصغار الرائعون!' واختتم بـ 'لقد كنتم مدهشين اليوم! أراكم غدًا.'");
-        });
+        forms.summary.addEventListener('submit', (e) => handleFormSubmit(e, 'summary', form => {
+            const points = form.querySelector('#summaryPoints').value;
+            if (!points.trim()) { alert('الرجاء إدخال كلمات رئيسية.'); return null; }
+            return { query: `استخدمي هذه النقاط لصياغة الملخص: "${points}"` };
+        }, "أنت معلمة رياض أطفال مرحة ومحبوبة. مهمتك هي صياغة ملخص قصير ومبهج لنهاية اليوم الدراسي، موجه للأطفال. استخدم لغة بسيطة وعبارات تشجيعية. ابدأ بـ 'أصدقائي الصغار الرائعون!' واختتم بـ 'لقد كنتم مدهشين اليوم! أراكم غدًا.'"));
 
-        forms.lesson.addEventListener('submit', (e) => {
-            handleFormSubmit(e, 'lesson', form => {
-                const objective = form.querySelector('#lessonObjective').value;
-                const duration = form.querySelector('#lessonDuration').value;
-                if (!objective.trim()) { alert('الرجاء إدخال الهدف التعليمي.'); return null; }
-                return { query: `بناءً على الهدف: "${objective}"، ولمدة "${duration}"، قم بإنشاء خطة درس بسيطة باللغة العربية مقسمة إلى: 1. تهيئة، 2. نشاط رئيسي، 3. ختام.` };
-            }, "أنت خبير في تصميم المناهج للتعليم المبكر. مهمتك هي إنشاء خطط دروس قصيرة، تفاعلية، ومناسبة لنمو الأطفال.");
-        });
+        forms.lesson.addEventListener('submit', (e) => handleFormSubmit(e, 'lesson', form => {
+            const objective = form.querySelector('#lessonObjective').value;
+            const duration = form.querySelector('#lessonDuration').value;
+            if (!objective.trim()) { alert('الرجاء إدخال الهدف التعليمي.'); return null; }
+            return { query: `بناءً على الهدف: "${objective}"، ولمدة "${duration}"، قم بإنشاء خطة درس بسيطة باللغة العربية مقسمة إلى: 1. تهيئة، 2. نشاط رئيسي، 3. ختام.` };
+        }, "أنت خبير في تصميم المناهج للتعليم المبكر. مهمتك هي إنشاء خطط دروس قصيرة، تفاعلية، ومناسبة لنمو الأطفال."));
 
-        forms.song.addEventListener('submit', (e) => {
-            handleFormSubmit(e, 'song', form => {
-                const theme = form.querySelector('#songTheme').value;
-                if (!theme.trim()) { alert('الرجاء إدخال موضوع للأنشودة.'); return null; }
-                return { query: `اكتب لي أنشودة قصيرة حول موضوع "${theme}".` };
-            }, "أنت شاعر وملحن متخصص في كتابة أغاني وأناشيد بسيطة وممتعة للأطفال بعمر 3-5 سنوات. يجب أن تكون الكلمات سهلة الحفظ. قدم الأنشودة في مقطعين قصيرين.");
-        });
+        forms.song.addEventListener('submit', (e) => handleFormSubmit(e, 'song', form => {
+            const theme = form.querySelector('#songTheme').value;
+            if (!theme.trim()) { alert('الرجاء إدخال موضوع للأنشودة.'); return null; }
+            return { query: `اكتب لي أنشودة قصيرة حول موضوع "${theme}".` };
+        }, "أنت شاعر وملحن متخصص في كتابة أغاني وأناشيد بسيطة وممتعة للأطفال بعمر 3-5 سنوات. يجب أن تكون الكلمات سهلة الحفظ. قدم الأنشودة في مقطعين قصيرين."));
 
-        forms.observation.addEventListener('submit', (e) => {
-            handleFormSubmit(e, 'observation', form => {
-                const text = form.querySelector('#observationText').value;
-                if (!text.trim()) { alert('الرجاء إدخال ملاحظتك.'); return null; }
-                return { query: `بناءً على هذه الملاحظة: "${text}"، اكتب ملاحظة مهنية منظمة تربط السلوك بمجال نمائي.` };
-            }, "أنت خبير في تربية الطفولة المبكرة. مهمتك هي تحويل ملاحظة مختصرة إلى ملاحظة مهنية منظمة، إيجابية، وموضوعية تربط السلوك بمجال نمائي مناسب.");
-        });
+        forms.observation.addEventListener('submit', (e) => handleFormSubmit(e, 'observation', form => {
+            const text = form.querySelector('#observationText').value;
+            if (!text.trim()) { alert('الرجاء إدخال ملاحظتك.'); return null; }
+            return { query: `بناءً على هذه الملاحظة: "${text}"، اكتب ملاحظة مهنية منظمة تربط السلوك بمجال نمائي.` };
+        }, "أنت خبير في تربية الطفولة المبكرة. مهمتك هي تحويل ملاحظة مختصرة إلى ملاحظة مهنية منظمة، إيجابية، وموضوعية تربط السلوك بمجال نمائي مناسب."));
         
-        forms.conflict.addEventListener('submit', (e) => {
-            handleFormSubmit(e, 'conflict', form => {
-                const description = form.querySelector('#conflictDescription').value;
-                if (!description.trim()) { alert('الرجاء وصف النزاع.'); return null; }
-                return { query: `لدينا هذا الموقف: "${description}". قدم خطة عمل من 3 خطوات بسيطة، مع أمثلة لعبارات يمكنني قولها للأطفال.` };
-            }, "أنت موجه تربوي خبير في حل النزاعات بين الأطفال الصغار. مهمتك هي تقديم خطوات عملية وهادئة لتحويل النزاع إلى فرصة للتعلم.");
-        });
+        forms.conflict.addEventListener('submit', (e) => handleFormSubmit(e, 'conflict', form => {
+            const description = form.querySelector('#conflictDescription').value;
+            if (!description.trim()) { alert('الرجاء وصف النزاع.'); return null; }
+            return { query: `لدينا هذا الموقف: "${description}". قدم خطة عمل من 3 خطوات بسيطة، مع أمثلة لعبارات يمكنني قولها للأطفال.` };
+        }, "أنت موجه تربوي خبير في حل النزاعات بين الأطفال الصغار. مهمتك هي تقديم خطوات عملية وهادئة لتحويل النزاع إلى فرصة للتعلم."));
         
-        forms.objectives.addEventListener('submit', (e) => {
-            handleFormSubmit(e, 'objectives', form => {
-                const activity = form.querySelector('#objectivesActivity').value;
-                if (!activity.trim()) { alert('الرجاء وصف النشاط.'); return null; }
-                return { query: `بالنسبة للنشاط: "${activity}"، حدد 2-3 أهداف تربوية أساسية ينميها هذا النشاط. قدمها في قائمة نقطية.` };
-            }, "أنت خبير في المناهج التربوية للتعليم الأولي. مهمتك هي تحديد الأهداف التربوية الرئيسية التي يمكن تحقيقها من خلال نشاط معين.");
-        });
+        forms.objectives.addEventListener('submit', (e) => handleFormSubmit(e, 'objectives', form => {
+            const activity = form.querySelector('#objectivesActivity').value;
+            if (!activity.trim()) { alert('الرجاء وصف النشاط.'); return null; }
+            return { query: `بالنسبة للنشاط: "${activity}"، حدد 2-3 أهداف تربوية أساسية ينميها هذا النشاط. قدمها في قائمة نقطية.` };
+        }, "أنت خبير في المناهج التربوية للتعليم الأولي. مهمتك هي تحديد الأهداف التربوية الرئيسية التي يمكن تحقيقها من خلال نشاط معين."));
         
-        forms.questions.addEventListener('submit', (e) => {
-            handleFormSubmit(e, 'questions', form => {
-                const topic = form.querySelector('#questionsTopic').value;
-                if (!topic.trim()) { alert('الرجاء إدخال الموضوع.'); return null; }
-                return { query: `حول موضوع "${topic}"، اقترح 4-5 أسئلة مفتوحة ومناسبة للأطفال لإثارة فضولهم.` };
-            }, "أنت مربية ماهرة في إثارة فضول الأطفال. مهمتك هي صياغة أسئلة مفتوحة ومحفزة للحوار.");
-        });
+        forms.questions.addEventListener('submit', (e) => handleFormSubmit(e, 'questions', form => {
+            const topic = form.querySelector('#questionsTopic').value;
+            if (!topic.trim()) { alert('الرجاء إدخال الموضوع.'); return null; }
+            return { query: `حول موضوع "${topic}"، اقترح 4-5 أسئلة مفتوحة ومناسبة للأطفال لإثارة فضولهم.` };
+        }, "أنت مربية ماهرة في إثارة فضول الأطفال. مهمتك هي صياغة أسئلة مفتوحة ومحفزة للحوار."));
         
-        forms.unit.addEventListener('submit', (e) => {
-            handleFormSubmit(e, 'unit', form => {
-                const theme = form.querySelector('#unitTheme').value;
-                const duration = form.querySelector('#unitDuration').value;
-                if (!theme.trim()) { alert('الرجاء إدخال موضوع للوحدة.'); return null; }
-                return { query: `بناءً على موضوع "${theme}"، ولمدة "${duration}"، أنشئ مخطط وحدة دراسية يتضمن أنشطة يومية، أعمال فنية، قصة، أنشودة، ومفردات أساسية.` };
-            }, "أنت خبير في تخطيط المناهج للتعليم الأولي. مهمتك هي إنشاء خطط وحدات دراسية متكاملة وممتعة.");
-        });
+        forms.unit.addEventListener('submit', (e) => handleFormSubmit(e, 'unit', form => {
+            const theme = form.querySelector('#unitTheme').value;
+            const duration = form.querySelector('#unitDuration').value;
+            if (!theme.trim()) { alert('الرجاء إدخال موضوع للوحدة.'); return null; }
+            return { query: `بناءً على موضوع "${theme}"، ولمدة "${duration}"، أنشئ مخطط وحدة دراسية يتضمن أنشطة يومية، أعمال فنية، قصة، أنشودة، ومفردات أساسية.` };
+        }, "أنت خبير في تخطيط المناهج للتعليم الأولي. مهمتك هي إنشاء خطط وحدات دراسية متكاملة وممتعة."));
         
-        forms.transition.addEventListener('submit', (e) => {
-            handleFormSubmit(e, 'transition', form => {
-                const description = form.querySelector('#transitionDescription').value;
-                if (!description.trim()) { alert('الرجاء وصف الموقف.'); return null; }
-                return { query: `أحتاج فكرة للانتقال من "${description}". اقترح لعبة سريعة أو أغنية قصيرة.` };
-            }, "أنت مربية خبيرة في إدارة الفصل. مهمتك هي تقديم أفكار قصيرة ومرحة لجعل فترات الانتقال بين الأنشطة سلسة.");
-        });
+        forms.transition.addEventListener('submit', (e) => handleFormSubmit(e, 'transition', form => {
+            const description = form.querySelector('#transitionDescription').value;
+            if (!description.trim()) { alert('الرجاء وصف الموقف.'); return null; }
+            return { query: `أحتاج فكرة للانتقال من "${description}". اقترح لعبة سريعة أو أغنية قصيرة.` };
+        }, "أنت مربية خبيرة في إدارة الفصل. مهمتك هي تقديم أفكار قصيرة ومرحة لجعل فترات الانتقال بين الأنشطة سلسة."));
         
-        forms.roleplay.addEventListener('submit', (e) => {
-            handleFormSubmit(e, 'roleplay', form => {
-                const skill = form.querySelector('#roleplaySkill').value;
-                if (!skill.trim()) { alert('الرجاء وصف المهارة.'); return null; }
-                return { query: `أحتاج سيناريو لعب أدوار لتعليم الأطفال كيفية "${skill}". قدم السيناريو مع تحديد الأدوار وعبارات بسيطة.` };
-            }, "أنت خبير في علم نفس الطفل والتعلم الاجتماعي العاطفي. مهمتك هي إنشاء سيناريوهات لعب أدوار بسيطة وموجزة للأطفال.");
-        });
+        forms.roleplay.addEventListener('submit', (e) => handleFormSubmit(e, 'roleplay', form => {
+            const skill = form.querySelector('#roleplaySkill').value;
+            if (!skill.trim()) { alert('الرجاء وصف المهارة.'); return null; }
+            return { query: `أحتاج سيناريو لعب أدوار لتعليم الأطفال كيفية "${skill}". قدم السيناريو مع تحديد الأدوار وعبارات بسيطة.` };
+        }, "أنت خبير في علم نفس الطفل والتعلم الاجتماعي العاطفي. مهمتك هي إنشاء سيناريوهات لعب أدوار بسيطة وموجزة للأطفال."));
         
-        forms.support.addEventListener('submit', (e) => {
+        forms.parent.addEventListener('submit', (e) => handleFormSubmit(e, 'parent', form => {
+            const topic = form.querySelector('#parentTopic').value;
+            if (!topic.trim()) { alert('الرجاء وصف ما تعلمه الأطفال.'); return null; }
+            return { query: `بناءً على ما تعلمه الأطفال في الفصل اليوم حول: "${topic}"، اقترح نشاطًا منزليًا بسيطًا يمكنني مشاركته مع أولياء الأمور. صغ الاقتراح كرسالة قصيرة وودودة موجهة للآباء.` };
+        }, "أنت خبير في التعليم المبكر ومتخصص في تعزيز الشراكة بين الروضة والمنزل. مهمتك هي تحويل موضوع تعليمي من الفصل إلى نشاط منزلي بسيط وممتع."));
+
+        forms.flashcard.addEventListener('submit', (e) => handleFormSubmit(e, 'flashcard', form => {
+            const topic = form.querySelector('#flashcardTopic').value;
+            if (!topic.trim()) { alert('الرجاء إدخال الموضوع.'); return null; }
+            return { query: `حول موضوع "${topic}"، أنشئ قائمة من 5-7 كلمات أساسية مع وصف بسيط جداً لكل كلمة، لتكون مناسبة لبطاقات تعليمية للأطفال.` };
+        }, "أنت خبير في إعداد المواد التعليمية للأطفال الصغار. مهمتك هي إنشاء محتوى واضح وموجز لبطاقات الكلمات التعليمية (Flashcards)."));
+
+        forms.corners.addEventListener('submit', (e) => handleFormSubmit(e, 'corners', form => {
+            const theme = form.querySelector('#cornersTheme').value;
+            if (!theme.trim()) { alert('الرجاء إدخال موضوع الوحدة.'); return null; }
+            return { query: `لموضوع "${theme}"، اقترح فكرة واحدة مبتكرة وبسيطة لكل ركن من الأركان التربوية التالية: ركن الفن، ركن العلوم، وركن القراءة.` };
+        }, "أنت مربية مبدعة ومتخصصة في تجهيز الفصول الدراسية. مهمتك هي تقديم أفكار عملية ومبتكرة لتجهيز الأركان التربوية لتتناسب مع الوحدة الدراسية."));
+
+        forms.differentiation.addEventListener('submit', (e) => handleFormSubmit(e, 'differentiation', form => {
+            const activity = form.querySelector('#diffActivity').value;
+            const goal = form.querySelector('#diffGoal').value;
+            if (!activity.trim()) { alert('الرجاء وصف النشاط.'); return null; }
+            return { query: `بالنسبة للنشاط التالي: "${activity}"، اقترح 2-3 طرق عملية ومختلفة لكي "${goal}".` };
+        }, "أنت خبير تربوي متخصص في التكييف البيداغوجي (differentiation). مهمتك هي تقديم اقتراحات بسيطة وعملية لتكييف الأنشطة التعليمية لتناسب المستويات المختلفة للأطفال."));
+
+        forms.support.addEventListener('submit', async (e) => {
             e.preventDefault();
             const supportNeeds = document.getElementById('supportNeeds').value;
             if (!supportNeeds.trim()) { alert('الرجاء وصف احتياج الطفل.'); return; }
@@ -798,7 +965,7 @@
             const promptGenUserQuery = `From this story, create a prompt for an image in a 'simple, colorful, friendly cartoon style for a children's book'. Story: "${storyText}"`;
 
             try {
-                const imagePrompt = await generateTextWithRetry(promptGenSystemPrompt, promptGenUserQuery);
+                const imagePrompt = await generateTextWithRetry(promptGenSystemPrompt, userQuery);
                 const base64Data = await generateImageWithRetry(imagePrompt);
                 document.getElementById('storyImage').src = `data:image/png;base64,${base64Data}`;
             } catch(error) {
