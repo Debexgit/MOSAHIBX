@@ -617,7 +617,7 @@
     </div>
     
     <script>
-        const apiKey = "AIzaSyBaCDJFmqml5lcSse5Ckfq6I0G7fvzihCU";
+        const apiKey = "";
         const textApiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
         const imageApiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
         
@@ -791,14 +791,14 @@
             }
         }
 
-        forms.activity.addEventListener('submit', async (e) => handleFormSubmit(e, 'activity', form => {
+        forms.activity.addEventListener('submit', (e) => handleFormSubmit(e, 'activity', form => {
             const type = form.querySelector('#activityType').value;
             const theme = form.querySelector('#activityTheme').value;
             if (!theme.trim()) { alert('الرجاء إدخال موضوع للنشاط.'); return null; }
             return { query: `اقترح لي ${type} حول موضوع "${theme}". قدم شرحًا موجزًا للخطوات والمواد اللازمة إن وجدت.` };
         }, "أنت مربية أطفال خبيرة ومبدعة. مهمتك هي اقتراح أنشطة بسيطة وممتعة للأطفال بعمر 3-5 سنوات. الاقتراحات يجب أن تكون واضحة، قصيرة، ومناسبة لبيئة روضة الأطفال."));
 
-        forms.communication.addEventListener('submit', async (e) => handleFormSubmit(e, 'communication', form => {
+        forms.communication.addEventListener('submit', (e) => handleFormSubmit(e, 'communication', form => {
             const tone = form.querySelector('#commTone').value;
             const points = form.querySelector('#commPoints').value;
             if (!points.trim()) { alert('الرجاء إدخال ملاحظات عن يوم الطفل.'); return null; }
@@ -830,87 +830,87 @@
             }
         });
 
-        forms.summary.addEventListener('submit', async (e) => handleFormSubmit(e, 'summary', form => {
+        forms.summary.addEventListener('submit', (e) => handleFormSubmit(e, 'summary', form => {
             const points = form.querySelector('#summaryPoints').value;
             if (!points.trim()) { alert('الرجاء إدخال كلمات رئيسية.'); return null; }
             return { query: `استخدمي هذه النقاط لصياغة الملخص: "${points}"` };
         }, "أنت معلمة رياض أطفال مرحة ومحبوبة. مهمتك هي صياغة ملخص قصير ومبهج لنهاية اليوم الدراسي، موجه للأطفال. استخدم لغة بسيطة وعبارات تشجيعية. ابدأ بـ 'أصدقائي الصغار الرائعون!' واختتم بـ 'لقد كنتم مدهشين اليوم! أراكم غدًا.'"));
 
-        forms.lesson.addEventListener('submit', async (e) => handleFormSubmit(e, 'lesson', form => {
+        forms.lesson.addEventListener('submit', (e) => handleFormSubmit(e, 'lesson', form => {
             const objective = form.querySelector('#lessonObjective').value;
             const duration = form.querySelector('#lessonDuration').value;
             if (!objective.trim()) { alert('الرجاء إدخال الهدف التعليمي.'); return null; }
             return { query: `بناءً على الهدف: "${objective}"، ولمدة "${duration}"، قم بإنشاء خطة درس بسيطة باللغة العربية مقسمة إلى: 1. تهيئة، 2. نشاط رئيسي، 3. ختام.` };
         }, "أنت خبير في تصميم المناهج للتعليم المبكر. مهمتك هي إنشاء خطط دروس قصيرة، تفاعلية، ومناسبة لنمو الأطفال."));
 
-        forms.song.addEventListener('submit', async (e) => handleFormSubmit(e, 'song', form => {
+        forms.song.addEventListener('submit', (e) => handleFormSubmit(e, 'song', form => {
             const theme = form.querySelector('#songTheme').value;
             if (!theme.trim()) { alert('الرجاء إدخال موضوع للأنشودة.'); return null; }
             return { query: `اكتب لي أنشودة قصيرة حول موضوع "${theme}".` };
         }, "أنت شاعر وملحن متخصص في كتابة أغاني وأناشيد بسيطة وممتعة للأطفال بعمر 3-5 سنوات. يجب أن تكون الكلمات سهلة الحفظ. قدم الأنشودة في مقطعين قصيرين."));
 
-        forms.observation.addEventListener('submit', async (e) => handleFormSubmit(e, 'observation', form => {
+        forms.observation.addEventListener('submit', (e) => handleFormSubmit(e, 'observation', form => {
             const text = form.querySelector('#observationText').value;
             if (!text.trim()) { alert('الرجاء إدخال ملاحظتك.'); return null; }
             return { query: `بناءً على هذه الملاحظة: "${text}"، اكتب ملاحظة مهنية منظمة تربط السلوك بمجال نمائي.` };
         }, "أنت خبير في تربية الطفولة المبكرة. مهمتك هي تحويل ملاحظة مختصرة إلى ملاحظة مهنية منظمة، إيجابية، وموضوعية تربط السلوك بمجال نمائي مناسب."));
         
-        forms.conflict.addEventListener('submit', async (e) => handleFormSubmit(e, 'conflict', form => {
+        forms.conflict.addEventListener('submit', (e) => handleFormSubmit(e, 'conflict', form => {
             const description = form.querySelector('#conflictDescription').value;
             if (!description.trim()) { alert('الرجاء وصف النزاع.'); return null; }
             return { query: `لدينا هذا الموقف: "${description}". قدم خطة عمل من 3 خطوات بسيطة، مع أمثلة لعبارات يمكنني قولها للأطفال.` };
         }, "أنت موجه تربوي خبير في حل النزاعات بين الأطفال الصغار. مهمتك هي تقديم خطوات عملية وهادئة لتحويل النزاع إلى فرصة للتعلم."));
         
-        forms.objectives.addEventListener('submit', async (e) => handleFormSubmit(e, 'objectives', form => {
+        forms.objectives.addEventListener('submit', (e) => handleFormSubmit(e, 'objectives', form => {
             const activity = form.querySelector('#objectivesActivity').value;
             if (!activity.trim()) { alert('الرجاء وصف النشاط.'); return null; }
             return { query: `بالنسبة للنشاط: "${activity}"، حدد 2-3 أهداف تربوية أساسية ينميها هذا النشاط. قدمها في قائمة نقطية.` };
         }, "أنت خبير في المناهج التربوية للتعليم الأولي. مهمتك هي تحديد الأهداف التربوية الرئيسية التي يمكن تحقيقها من خلال نشاط معين."));
         
-        forms.questions.addEventListener('submit', async (e) => handleFormSubmit(e, 'questions', form => {
+        forms.questions.addEventListener('submit', (e) => handleFormSubmit(e, 'questions', form => {
             const topic = form.querySelector('#questionsTopic').value;
             if (!topic.trim()) { alert('الرجاء إدخال الموضوع.'); return null; }
             return { query: `حول موضوع "${topic}"، اقترح 4-5 أسئلة مفتوحة ومناسبة للأطفال لإثارة فضولهم.` };
         }, "أنت مربية ماهرة في إثارة فضول الأطفال. مهمتك هي صياغة أسئلة مفتوحة ومحفزة للحوار."));
         
-        forms.unit.addEventListener('submit', async (e) => handleFormSubmit(e, 'unit', form => {
+        forms.unit.addEventListener('submit', (e) => handleFormSubmit(e, 'unit', form => {
             const theme = form.querySelector('#unitTheme').value;
             const duration = form.querySelector('#unitDuration').value;
             if (!theme.trim()) { alert('الرجاء إدخال موضوع للوحدة.'); return null; }
             return { query: `بناءً على موضوع "${theme}"، ولمدة "${duration}"، أنشئ مخطط وحدة دراسية يتضمن أنشطة يومية، أعمال فنية، قصة، أنشودة، ومفردات أساسية.` };
         }, "أنت خبير في تخطيط المناهج للتعليم الأولي. مهمتك هي إنشاء خطط وحدات دراسية متكاملة وممتعة."));
         
-        forms.transition.addEventListener('submit', async (e) => handleFormSubmit(e, 'transition', form => {
+        forms.transition.addEventListener('submit', (e) => handleFormSubmit(e, 'transition', form => {
             const description = form.querySelector('#transitionDescription').value;
             if (!description.trim()) { alert('الرجاء وصف الموقف.'); return null; }
             return { query: `أحتاج فكرة للانتقال من "${description}". اقترح لعبة سريعة أو أغنية قصيرة.` };
         }, "أنت مربية خبيرة في إدارة الفصل. مهمتك هي تقديم أفكار قصيرة ومرحة لجعل فترات الانتقال بين الأنشطة سلسة."));
         
-        forms.roleplay.addEventListener('submit', async (e) => handleFormSubmit(e, 'roleplay', form => {
+        forms.roleplay.addEventListener('submit', (e) => handleFormSubmit(e, 'roleplay', form => {
             const skill = form.querySelector('#roleplaySkill').value;
             if (!skill.trim()) { alert('الرجاء وصف المهارة.'); return null; }
             return { query: `أحتاج سيناريو لعب أدوار لتعليم الأطفال كيفية "${skill}". قدم السيناريو مع تحديد الأدوار وعبارات بسيطة.` };
         }, "أنت خبير في علم نفس الطفل والتعلم الاجتماعي العاطفي. مهمتك هي إنشاء سيناريوهات لعب أدوار بسيطة وموجزة للأطفال."));
         
-        forms.parent.addEventListener('submit', async (e) => handleFormSubmit(e, 'parent', form => {
+        forms.parent.addEventListener('submit', (e) => handleFormSubmit(e, 'parent', form => {
             const topic = form.querySelector('#parentTopic').value;
             if (!topic.trim()) { alert('الرجاء وصف ما تعلمه الأطفال.'); return null; }
             return { query: `بناءً على ما تعلمه الأطفال في الفصل اليوم حول: "${topic}"، اقترح نشاطًا منزليًا بسيطًا يمكنني مشاركته مع أولياء الأمور. صغ الاقتراح كرسالة قصيرة وودودة موجهة للآباء.` };
         }, "أنت خبير في التعليم المبكر ومتخصص في تعزيز الشراكة بين الروضة والمنزل. مهمتك هي تحويل موضوع تعليمي من الفصل إلى نشاط منزلي بسيط وممتع."));
 
-        forms.flashcard.addEventListener('submit', async (e) => handleFormSubmit(e, 'flashcard', form => {
+        forms.flashcard.addEventListener('submit', (e) => handleFormSubmit(e, 'flashcard', form => {
             const topic = form.querySelector('#flashcardTopic').value;
             if (!topic.trim()) { alert('الرجاء إدخال الموضوع.'); return null; }
             return { query: `حول موضوع "${topic}"، أنشئ قائمة من 5-7 كلمات أساسية مع وصف بسيط جداً لكل كلمة، لتكون مناسبة لبطاقات تعليمية للأطفال.` };
         }, "أنت خبير في إعداد المواد التعليمية للأطفال الصغار. مهمتك هي إنشاء محتوى واضح وموجز لبطاقات الكلمات التعليمية (Flashcards)."));
 
-        forms.corners.addEventListener('submit', async (e) => handleFormSubmit(e, 'corners', form => {
+        forms.corners.addEventListener('submit', (e) => handleFormSubmit(e, 'corners', form => {
             const theme = form.querySelector('#cornersTheme').value;
             if (!theme.trim()) { alert('الرجاء إدخال موضوع الوحدة.'); return null; }
             return { query: `لموضوع "${theme}"، اقترح فكرة واحدة مبتكرة وبسيطة لكل ركن من الأركان التربوية التالية: ركن الفن، ركن العلوم، وركن القراءة.` };
         }, "أنت مربية مبدعة ومتخصصة في تجهيز الفصول الدراسية. مهمتك هي تقديم أفكار عملية ومبتكرة لتجهيز الأركان التربوية لتتناسب مع الوحدة الدراسية."));
 
-        forms.differentiation.addEventListener('submit', async (e) => handleFormSubmit(e, 'differentiation', form => {
+        forms.differentiation.addEventListener('submit', (e) => handleFormSubmit(e, 'differentiation', form => {
             const activity = form.querySelector('#diffActivity').value;
             const goal = form.querySelector('#diffGoal').value;
             if (!activity.trim()) { alert('الرجاء وصف النشاط.'); return null; }
@@ -920,7 +920,7 @@
         forms.support.addEventListener('submit', async (e) => {
             e.preventDefault();
             const supportNeeds = document.getElementById('supportNeeds').value;
-            if (!supportNeeds.trim()) { alert('الرجاء وصف احتياج الطفل.'); return; }
+            if (!supportNeeds.trim()) { alert('الرجاء وصف احتياج الطفل.'); return null; }
             const { result, loader, resultText } = { result: results.support, loader: loaders.support, resultText: resultTexts.support };
             result.classList.remove('hidden');
             loader.classList.remove('hidden');
