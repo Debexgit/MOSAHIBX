@@ -26,1006 +26,224 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        .gemini-tab {
+        .tool-card {
             transition: all 0.3s ease;
-            color: #4b5563;
+            border: 1px solid #e5e7eb;
         }
-        .gemini-tab:hover {
-            color: #14b8a6;
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            border-color: #14b8a6;
         }
-        .gemini-tab.active {
-           color: #14b8a6;
-           font-weight: 700;
+        .mobile-scroll::-webkit-scrollbar {
+            display: none;
         }
-        .tool-group h3 {
-            margin-bottom: 1rem;
-            font-size: 1.125rem;
-            font-weight: 700;
-            color: #374151;
-            border-bottom: 2px solid #e5e7eb;
-            padding-bottom: 0.5rem;
+        .mobile-scroll {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
     </style>
 </head>
 <body class="bg-slate-50 text-gray-800">
 
-    <div class="container mx-auto max-w-5xl p-4 sm:p-6 md:p-8">
+    <div id="app" class="container mx-auto max-w-6xl p-4 sm:p-6 md:p-8">
+        
+        <div id="main-app-view">
+             <header class="text-center mb-12">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight">مصاحب</h1>
+                <h2 class="text-2xl md:text-3xl font-bold text-teal-600 mt-2">مساعدك التربوي الذكي</h2>
+                <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">أدوات ذكية بين يديك لتسهيل مهامك التربوية اليومية.</p>
+            </header>
 
-        <header class="text-center mb-12">
-            <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight">مصاحب</h1>
-            <h2 class="text-2xl md:text-3xl font-bold text-teal-600 mt-2">مساعدك التربوي الذكي</h2>
-            <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">أدوات ذكية بين يديك لتسهيل مهامك التربوية اليومية.</p>
-        </header>
-
-        <main>
-
-            <section id="gemini-assistant">
-                <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
-                     <h2 class="text-3xl font-bold text-teal-600 mb-4 text-center">🤖 اختر أداتك الذكية</h2>
-                     <p class="text-lg text-gray-700 max-w-3xl mx-auto mb-8 text-center">
-                        أدوات إبداعية تحت تصرفك. اختر إحدى المهام أدناه ودع الذكاء الاصطناعي يساعدك في التخطيط والإبداع.
-                    </p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        <div class="tool-group">
-                            <h3>التخطيط</h3>
-                            <div class="flex flex-col items-start gap-3">
-                                <button data-modal="unit" class="gemini-tab font-semibold text-lg py-2">📅 مخطط الوحدات</button>
-                                <button data-modal="lesson" class="gemini-tab font-semibold text-lg py-2">✨ مخطط الدروس</button>
-                                <button data-modal="objectives" class="gemini-tab font-semibold text-lg py-2">🎯 مساعد الأهداف</button>
-                                <button data-modal="corners" class="gemini-tab font-semibold text-lg py-2">🧩 مقترح الأركان</button>
+            <main>
+                <section id="gemini-assistant">
+                    <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+                        <div class="mb-8">
+                            <h2 class="text-3xl font-bold text-teal-600 mb-4 text-center">🤖 اختر أداتك الذكية</h2>
+                            <div class="relative w-full max-w-xl mx-auto">
+                                <input type="text" id="search-tools" placeholder="ابحث عن أداة..." class="w-full p-3 pr-10 text-gray-700 bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-teal-500">
+                                <span class="absolute top-1/2 right-3 -translate-y-1/2 text-gray-400 text-2xl">🔍</span>
                             </div>
                         </div>
-                         <div class="tool-group">
-                            <h3>إنشاء المحتوى</h3>
-                            <div class="flex flex-col items-start gap-3">
-                                <button data-modal="activity" class="gemini-tab font-semibold text-lg py-2">💡 مولّد الأنشطة</button>
-                                <button data-modal="story" class="gemini-tab font-semibold text-lg py-2">📖 مولّد القصص</button>
-                                <button data-modal="song" class="gemini-tab font-semibold text-lg py-2">🎶 مولّد الأناشيد</button>
-                                <button data-modal="questions" class="gemini-tab font-semibold text-lg py-2">🤔 مولّد الأسئلة</button>
-                                <button data-modal="flashcard" class="gemini-tab font-semibold text-lg py-2">📇 منشئ البطاقات</button>
-                            </div>
+                        
+                        <div id="tools-container" class="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                         </div>
-                         <div class="tool-group">
-                            <h3>إدارة الفصل</h3>
-                            <div class="flex flex-col items-start gap-3">
-                                <button data-modal="transition" class="gemini-tab font-semibold text-lg py-2">🚀 مساعد الانتقالات</button>
-                                <button data-modal="conflict" class="gemini-tab font-semibold text-lg py-2">🗣️ مساعد النزاعات</button>
-                                <button data-modal="roleplay" class="gemini-tab font-semibold text-lg py-2">🎭 لعب الأدوار</button>
-                                <button data-modal="differentiation" class="gemini-tab font-semibold text-lg py-2">🔧 مكيف الأنشطة</button>
-                                <button data-modal="support" class="gemini-tab font-semibold text-lg py-2">🤝 الدعم الفردي</button>
-                            </div>
-                        </div>
-                         <div class="tool-group">
-                            <h3>المتابعة والتواصل</h3>
-                            <div class="flex flex-col items-start gap-3">
-                                <button data-modal="observation" class="gemini-tab font-semibold text-lg py-2">📋 تدوين الملاحظات</button>
-                                <button data-modal="communication" class="gemini-tab font-semibold text-lg py-2">✉️ رسائل للأهل</button>
-                                <button data-modal="parent" class="gemini-tab font-semibold text-lg py-2">🏡 أنشطة منزلية</button>
-                                <button data-modal="summary" class="gemini-tab font-semibold text-lg py-2">📝 ملخص اليوم</button>
-                            </div>
+                        <div id="mobile-tools-container" class="md:hidden flex overflow-x-auto snap-x snap-mandatory gap-4 mobile-scroll pb-4">
                         </div>
                     </div>
-                </div>
-            </section>
-            
-        </main>
-        
-        <footer class="text-center mt-16 pt-8 border-t border-gray-200">
-             <p class="text-gray-600 font-semibold">Debex &copy; 2025</p>
-        </footer>
+                </section>
+            </main>
+             <footer class="text-center mt-16 pt-8 border-t border-gray-200">
+                <p class="text-gray-600 font-semibold">Debex &copy; 2025</p>
+            </footer>
+        </div>
 
-    </div>
-    
-    <div data-modal-id="unit" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
-            <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">📅 مخطط الوحدات الدراسية</h3>
-            <form id="unitForm">
-                 <div class="mb-4">
-                    <label for="unitTheme" class="block text-gray-700 text-sm font-bold mb-2">موضوع الوحدة:</label>
-                    <input type="text" id="unitTheme" placeholder="مثال: عالم الديناصورات، الفصول الأربعة..." class="shadow-sm appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500">
-                </div>
-                <div class="mb-6">
-                    <label for="unitDuration" class="block text-gray-700 text-sm font-bold mb-2">المدة الزمنية:</label>
-                    <select id="unitDuration" class="block appearance-none w-full bg-gray-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                        <option value="3 أيام">3 أيام</option>
-                        <option value="أسبوع واحد">أسبوع واحد</option>
-                        <option value="أسبوعين">أسبوعين</option>
-                    </select>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="bg-teal-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-teal-600 transition-colors">
-                        ✨ إنشاء المخطط
-                    </button>
-                </div>
-            </form>
-            <div id="unitResult" class="mt-6 hidden">
-                <div class="flex justify-between items-center mb-2">
-                    <h4 class="text-xl font-bold text-gray-800">مخطط الوحدة المقترح:</h4>
-                    <button class="copy-btn bg-slate-200 text-slate-700 text-sm py-1 px-3 rounded-md hover:bg-slate-300">نسخ النص</button>
-                </div>
-                <div id="unitLoader" class="loader mx-auto my-4 hidden"></div>
-                <pre id="unitResultText" class="bg-slate-100 p-4 rounded-lg whitespace-pre-wrap text-right font-sans"></pre>
-            </div>
-        </div>
-    </div>
-    <div data-modal-id="activity" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
-            <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">💡 توليد فكرة نشاط</h3>
-            <form id="activityForm">
-                <div class="mb-4">
-                    <label for="activityType" class="block text-gray-700 text-sm font-bold mb-2">نوع النشاط:</label>
-                    <select id="activityType" class="block appearance-none w-full bg-gray-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                        <option value="لعبة حركية">لعبة حركية</option>
-                        <option value="أنشودة بسيطة">أنشودة بسيطة</option>
-                        <option value="نشاط فني">نشاط فني</option>
-                    </select>
-                </div>
-                <div class="mb-6">
-                    <label for="activityTheme" class="block text-gray-700 text-sm font-bold mb-2">موضوع النشاط:</label>
-                    <input type="text" id="activityTheme" placeholder="مثال: الفواكه، الحيوانات، الفضاء" class="shadow-sm appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500">
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="bg-teal-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-teal-600 transition-colors">
-                        ✨ توليد الفكرة
-                    </button>
-                </div>
-            </form>
-            <div id="activityResult" class="mt-6 hidden">
-                <h4 class="text-xl font-bold text-gray-800 mb-2">الفكرة المقترحة:</h4>
-                <div id="activityLoader" class="loader mx-auto my-4 hidden"></div>
-                <pre id="activityResultText" class="bg-slate-100 p-4 rounded-lg whitespace-pre-wrap text-right font-sans"></pre>
-            </div>
-        </div>
-    </div>
-    <div data-modal-id="communication" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
-            <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">✉️ صياغة رسالة لولي الأمر</h3>
-            <form id="communicationForm">
-                <div class="mb-4">
-                     <label for="commTone" class="block text-gray-700 text-sm font-bold mb-2">نبرة الرسالة:</label>
-                    <select id="commTone" class="block appearance-none w-full bg-gray-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                        <option value="تحديث إيجابي">تحديث إيجابي</option>
-                        <option value="ملاحظة بسيطة">ملاحظة بسيطة</option>
-                        <option value="اطمئنان عام">اطمئنان عام</option>
-                    </select>
-                </div>
-                <div class="mb-6">
-                    <label for="commPoints" class="block text-gray-700 text-sm font-bold mb-2">نقاط رئيسية عن يوم الطفل:</label>
-                    <textarea id="commPoints" rows="4" placeholder="مثال: كان سعيدًا اليوم، شارك ألعابه مع زملائه، استمتع بدرس الرسم..." class="shadow-sm appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500"></textarea>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="bg-teal-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-teal-600 transition-colors">
-                        ✨ صياغة الرسالة
-                    </button>
-                </div>
-            </form>
-            <div id="communicationResult" class="mt-6 hidden">
-                <div class="flex justify-between items-center mb-2">
-                    <h4 class="text-xl font-bold text-gray-800">الرسالة المقترحة:</h4>
-                    <button class="copy-btn bg-slate-200 text-slate-700 text-sm py-1 px-3 rounded-md hover:bg-slate-300">نسخ النص</button>
-                </div>
-                <div id="commLoader" class="loader mx-auto my-4 hidden"></div>
-                <pre id="commResultText" class="bg-slate-100 p-4 rounded-lg whitespace-pre-wrap text-right font-sans"></pre>
-            </div>
-        </div>
-    </div>
-    <div data-modal-id="story" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
-            <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">📖 إنشاء قصة مصورة</h3>
-            <form id="storyForm">
-                <div class="mb-4">
-                    <label for="storyCharacter" class="block text-gray-700 text-sm font-bold mb-2">اسم الشخصية الرئيسية:</label>
-                    <input type="text" id="storyCharacter" placeholder="مثال: نورة، الأرنب السريع" class="shadow-sm appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500">
-                </div>
-                <div class="mb-6">
-                    <label for="storyTheme" class="block text-gray-700 text-sm font-bold mb-2">موضوع القصة:</label>
-                    <input type="text" id="storyTheme" placeholder="مثال: الصداقة، مساعدة الآخرين" class="shadow-sm appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500">
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="bg-teal-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-teal-600 transition-colors">
-                        ✨ توليد القصة
-                    </button>
-                </div>
-            </form>
-            <div id="storyResult" class="mt-6 hidden">
-                 <div class="flex justify-between items-center mb-2">
-                    <h4 class="text-xl font-bold text-gray-800">القصة:</h4>
-                    <button class="copy-btn bg-slate-200 text-slate-700 text-sm py-1 px-3 rounded-md hover:bg-slate-300">نسخ النص</button>
-                </div>
-                <div id="storyLoader" class="loader mx-auto my-4 hidden"></div>
-                <pre id="storyResultText" class="bg-slate-100 p-4 rounded-lg whitespace-pre-wrap text-right font-sans"></pre>
-                <div class="text-center mt-4">
-                     <button id="generateImageBtn" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors hidden">
-                        🎨 توليد صورة للقصة
-                    </button>
-                </div>
-                <div id="imageResult" class="mt-4 text-center hidden">
-                     <div id="imageLoader" class="loader mx-auto my-4 hidden"></div>
-                     <img id="storyImage" src="" alt="صورة القصة" class="max-w-full mx-auto rounded-lg shadow-md">
-                </div>
-            </div>
-        </div>
-    </div>
-    <div data-modal-id="summary" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
-            <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">📝 إنشاء ملخص اليوم</h3>
-            <form id="summaryForm">
-                <div class="mb-6">
-                    <label for="summaryPoints" class="block text-gray-700 text-sm font-bold mb-2">الكلمات الرئيسية من أنشطة اليوم:</label>
-                    <textarea id="summaryPoints" rows="4" placeholder="مثال: تعلمنا عن اللون الأحمر، صنعنا تفاحة بالعجين، غنينا أغنية الفواكه..." class="shadow-sm appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500"></textarea>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="bg-teal-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-teal-600 transition-colors">
-                        ✨ إنشاء الملخص
-                    </button>
-                </div>
-            </form>
-            <div id="summaryResult" class="mt-6 hidden">
-                <div class="flex justify-between items-center mb-2">
-                    <h4 class="text-xl font-bold text-gray-800">الملخص المقترح:</h4>
-                    <button class="copy-btn bg-slate-200 text-slate-700 text-sm py-1 px-3 rounded-md hover:bg-slate-300">نسخ النص</button>
-                </div>
-                <div id="summaryLoader" class="loader mx-auto my-4 hidden"></div>
-                <pre id="summaryResultText" class="bg-slate-100 p-4 rounded-lg whitespace-pre-wrap text-right font-sans"></pre>
-            </div>
-        </div>
-    </div>
-    <div data-modal-id="support" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
-            <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">🤝 مُخطِّط الدعم الفردي</h3>
-            <form id="supportForm">
-                <div class="mb-6">
-                    <label for="supportNeeds" class="block text-gray-700 text-sm font-bold mb-2">صف باختصار سلوك أو احتياج الطفل:</label>
-                    <textarea id="supportNeeds" rows="4" placeholder="مثال: طفل خجول يرفض المشاركة في الأنشطة الجماعية، طفلة كثيرة الحركة وتفقد التركيز بسرعة..." class="shadow-sm appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500"></textarea>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="bg-teal-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-teal-600 transition-colors">
-                        ✨ توليد خطة الدعم
-                    </button>
-                </div>
-            </form>
-            <div id="supportResult" class="mt-6 hidden">
-                <div class="flex justify-between items-center mb-2">
-                    <h4 class="text-xl font-bold text-gray-800">خطة الدعم المقترحة:</h4>
-                    <button class="copy-btn bg-slate-200 text-slate-700 text-sm py-1 px-3 rounded-md hover:bg-slate-300">نسخ النص</button>
-                </div>
-                <div id="supportLoader" class="loader mx-auto my-4 hidden"></div>
-                <pre id="supportResultText" class="bg-slate-100 p-4 rounded-lg whitespace-pre-wrap text-right font-sans"></pre>
-            </div>
-        </div>
-    </div>
-    <div data-modal-id="lesson" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
-            <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">✨ مُخطِّط الدروس</h3>
-            <form id="lessonForm">
-                 <div class="mb-4">
-                    <label for="lessonObjective" class="block text-gray-700 text-sm font-bold mb-2">الهدف التعليمي:</label>
-                    <textarea id="lessonObjective" rows="3" placeholder="مثال: تعليم الأطفال العد من 1 إلى 5، تعريف الأطفال على حرف الألف..." class="shadow-sm appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500"></textarea>
-                </div>
-                <div class="mb-6">
-                    <label for="lessonDuration" class="block text-gray-700 text-sm font-bold mb-2">المدة الزمنية التقريبية:</label>
-                    <select id="lessonDuration" class="block appearance-none w-full bg-gray-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                        <option value="15 دقيقة">15 دقيقة</option>
-                        <option value="20 دقيقة">20 دقيقة</option>
-                        <option value="30 دقيقة">30 دقيقة</option>
-                    </select>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="bg-teal-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-teal-600 transition-colors">
-                        ✨ إنشاء خطة الدرس
-                    </button>
-                </div>
-            </form>
-            <div id="lessonResult" class="mt-6 hidden">
-                <div class="flex justify-between items-center mb-2">
-                    <h4 class="text-xl font-bold text-gray-800">خطة الدرس المقترحة:</h4>
-                    <button class="copy-btn bg-slate-200 text-slate-700 text-sm py-1 px-3 rounded-md hover:bg-slate-300">نسخ النص</button>
-                </div>
-                <div id="lessonLoader" class="loader mx-auto my-4 hidden"></div>
-                <pre id="lessonResultText" class="bg-slate-100 p-4 rounded-lg whitespace-pre-wrap text-right font-sans"></pre>
-            </div>
-        </div>
-    </div>
-    <div data-modal-id="song" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
-            <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">🎶 مولّد الأناشيد</h3>
-            <form id="songForm">
-                 <div class="mb-6">
-                    <label for="songTheme" class="block text-gray-700 text-sm font-bold mb-2">موضوع الأنشودة:</label>
-                    <input type="text" id="songTheme" placeholder="مثال: غسل اليدين، فصل الخريف، الألوان" class="shadow-sm appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500">
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="bg-teal-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-teal-600 transition-colors">
-                        ✨ كتابة الأنشودة
-                    </button>
-                </div>
-            </form>
-            <div id="songResult" class="mt-6 hidden">
-                <div class="flex justify-between items-center mb-2">
-                    <h4 class="text-xl font-bold text-gray-800">الأنشودة المقترحة:</h4>
-                    <button class="copy-btn bg-slate-200 text-slate-700 text-sm py-1 px-3 rounded-md hover:bg-slate-300">نسخ النص</button>
-                </div>
-                <div id="songLoader" class="loader mx-auto my-4 hidden"></div>
-                <pre id="songResultText" class="bg-slate-100 p-4 rounded-lg whitespace-pre-wrap text-right font-sans"></pre>
-            </div>
-        </div>
-    </div>
-    <div data-modal-id="observation" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
-            <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">📋 مساعد تدوين الملاحظات</h3>
-            <form id="observationForm">
-                 <div class="mb-6">
-                    <label for="observationText" class="block text-gray-700 text-sm font-bold mb-2">أدخل ملاحظتك السريعة:</label>
-                    <textarea id="observationText" rows="3" placeholder="مثال: سارة رسمت دائرة مغلقة لأول مرة، علي شارك لعبته مع صديقه..." class="shadow-sm appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500"></textarea>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="bg-teal-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-teal-600 transition-colors">
-                        ✨ تحويل إلى ملاحظة مهنية
-                    </button>
-                </div>
-            </form>
-            <div id="observationResult" class="mt-6 hidden">
-                <div class="flex justify-between items-center mb-2">
-                    <h4 class="text-xl font-bold text-gray-800">الملاحظة المهنية:</h4>
-                    <button class="copy-btn bg-slate-200 text-slate-700 text-sm py-1 px-3 rounded-md hover:bg-slate-300">نسخ النص</button>
-                </div>
-                <div id="observationLoader" class="loader mx-auto my-4 hidden"></div>
-                <pre id="observationResultText" class="bg-slate-100 p-4 rounded-lg whitespace-pre-wrap text-right font-sans"></pre>
-            </div>
-        </div>
-    </div>
-    <div data-modal-id="conflict" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
-            <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">🗣️ مساعد حل النزاعات</h3>
-            <form id="conflictForm">
-                 <div class="mb-6">
-                    <label for="conflictDescription" class="block text-gray-700 text-sm font-bold mb-2">صف النزاع باختصار:</label>
-                    <textarea id="conflictDescription" rows="3" placeholder="مثال: طفلان يتشاجران على نفس اللعبة، طفل أخذ غرضاً من زميله..." class="shadow-sm appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500"></textarea>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="bg-teal-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-teal-600 transition-colors">
-                        ✨ اقتراح حل
-                    </button>
-                </div>
-            </form>
-            <div id="conflictResult" class="mt-6 hidden">
-                <div class="flex justify-between items-center mb-2">
-                    <h4 class="text-xl font-bold text-gray-800">خطة العمل المقترحة:</h4>
-                    <button class="copy-btn bg-slate-200 text-slate-700 text-sm py-1 px-3 rounded-md hover:bg-slate-300">نسخ النص</button>
-                </div>
-                <div id="conflictLoader" class="loader mx-auto my-4 hidden"></div>
-                <pre id="conflictResultText" class="bg-slate-100 p-4 rounded-lg whitespace-pre-wrap text-right font-sans"></pre>
-            </div>
-        </div>
-    </div>
-     <div data-modal-id="objectives" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
-            <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">🎯 مساعد تحديد الأهداف</h3>
-            <form id="objectivesForm">
-                 <div class="mb-6">
-                    <label for="objectivesActivity" class="block text-gray-700 text-sm font-bold mb-2">صف النشاط باختصار:</label>
-                    <textarea id="objectivesActivity" rows="3" placeholder="مثال: بناء برج بالمكعبات، تلوين رسمة شجرة، اللعب بالرمل..." class="shadow-sm appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500"></textarea>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="bg-teal-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-teal-600 transition-colors">
-                        ✨ تحديد الأهداف
-                    </button>
-                </div>
-            </form>
-            <div id="objectivesResult" class="mt-6 hidden">
-                <div class="flex justify-between items-center mb-2">
-                    <h4 class="text-xl font-bold text-gray-800">الأهداف التربوية:</h4>
-                    <button class="copy-btn bg-slate-200 text-slate-700 text-sm py-1 px-3 rounded-md hover:bg-slate-300">نسخ النص</button>
-                </div>
-                <div id="objectivesLoader" class="loader mx-auto my-4 hidden"></div>
-                <pre id="objectivesResultText" class="bg-slate-100 p-4 rounded-lg whitespace-pre-wrap text-right font-sans"></pre>
-            </div>
-        </div>
-    </div>
-     <div data-modal-id="questions" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
-            <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">🤔 مولّد الأسئلة المحفزة</h3>
-            <form id="questionsForm">
-                 <div class="mb-6">
-                    <label for="questionsTopic" class="block text-gray-700 text-sm font-bold mb-2">أدخل موضوع النشاط أو الحوار:</label>
-                    <input type="text" id="questionsTopic" placeholder="مثال: الديناصورات، قطرات المطر، مشاعر الفرح..." class="shadow-sm appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500">
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="bg-teal-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-teal-600 transition-colors">
-                        ✨ توليد أسئلة
-                    </button>
-                </div>
-            </form>
-            <div id="questionsResult" class="mt-6 hidden">
-                <div class="flex justify-between items-center mb-2">
-                    <h4 class="text-xl font-bold text-gray-800">أسئلة مقترحة:</h4>
-                    <button class="copy-btn bg-slate-200 text-slate-700 text-sm py-1 px-3 rounded-md hover:bg-slate-300">نسخ النص</button>
-                </div>
-                <div id="questionsLoader" class="loader mx-auto my-4 hidden"></div>
-                <pre id="questionsResultText" class="bg-slate-100 p-4 rounded-lg whitespace-pre-wrap text-right font-sans"></pre>
-            </div>
-        </div>
-    </div>
-    <div data-modal-id="transition" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
-            <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">🚀 مساعد الانتقالات</h3>
-            <form id="transitionForm">
-                 <div class="mb-6">
-                    <label for="transitionDescription" class="block text-gray-700 text-sm font-bold mb-2">صف الموقف الانتقالي:</label>
-                    <textarea id="transitionDescription" rows="3" placeholder="مثال: الانتقال من ترتيب الألعاب إلى غسل اليدين، الانتقال من الساحة إلى القسم..." class="shadow-sm appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500"></textarea>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="bg-teal-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-teal-600 transition-colors">
-                        ✨ اقتراح فكرة
-                    </button>
-                </div>
-            </form>
-            <div id="transitionResult" class="mt-6 hidden">
-                <div class="flex justify-between items-center mb-2">
-                    <h4 class="text-xl font-bold text-gray-800">فكرة مقترحة:</h4>
-                    <button class="copy-btn bg-slate-200 text-slate-700 text-sm py-1 px-3 rounded-md hover:bg-slate-300">نسخ النص</button>
-                </div>
-                <div id="transitionLoader" class="loader mx-auto my-4 hidden"></div>
-                <pre id="transitionResultText" class="bg-slate-100 p-4 rounded-lg whitespace-pre-wrap text-right font-sans"></pre>
-            </div>
-        </div>
-    </div>
-    <div data-modal-id="roleplay" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
-            <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">🎭 مولّد سيناريوهات لعب الأدوار</h3>
-            <form id="roleplayForm">
-                 <div class="mb-6">
-                    <label for="roleplaySkill" class="block text-gray-700 text-sm font-bold mb-2">صف المهارة الاجتماعية أو الموقف:</label>
-                    <textarea id="roleplaySkill" rows="3" placeholder="مثال: كيفية طلب المشاركة في لعبة، تعلم قول 'شكراً' و'من فضلك'..." class="shadow-sm appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500"></textarea>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="bg-teal-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-teal-600 transition-colors">
-                        ✨ إنشاء سيناريو
-                    </button>
-                </div>
-            </form>
-            <div id="roleplayResult" class="mt-6 hidden">
-                <div class="flex justify-between items-center mb-2">
-                    <h4 class="text-xl font-bold text-gray-800">سيناريو مقترح:</h4>
-                    <button class="copy-btn bg-slate-200 text-slate-700 text-sm py-1 px-3 rounded-md hover:bg-slate-300">نسخ النص</button>
-                </div>
-                <div id="roleplayLoader" class="loader mx-auto my-4 hidden"></div>
-                <pre id="roleplayResultText" class="bg-slate-100 p-4 rounded-lg whitespace-pre-wrap text-right font-sans"></pre>
-            </div>
-        </div>
-    </div>
-    <div data-modal-id="parent" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
-            <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">🏡 مساعد الأنشطة المنزلية</h3>
-            <form id="parentForm">
-                 <div class="mb-6">
-                    <label for="parentTopic" class="block text-gray-700 text-sm font-bold mb-2">ماذا تعلم الأطفال في الفصل اليوم؟</label>
-                    <textarea id="parentTopic" rows="3" placeholder="مثال: تعرفنا على الأشكال الهندسية، تعلمنا عن دورة حياة الفراشة..." class="shadow-sm appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500"></textarea>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="bg-teal-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-teal-600 transition-colors">
-                        💡 اقتراح نشاط منزلي
-                    </button>
-                </div>
-            </form>
-            <div id="parentResult" class="mt-6 hidden">
-                <div class="flex justify-between items-center mb-2">
-                    <h4 class="text-xl font-bold text-gray-800">رسالة مقترحة للأهل:</h4>
-                    <button class="copy-btn bg-slate-200 text-slate-700 text-sm py-1 px-3 rounded-md hover:bg-slate-300">نسخ النص</button>
-                </div>
-                <div id="parentLoader" class="loader mx-auto my-4 hidden"></div>
-                <pre id="parentResultText" class="bg-slate-100 p-4 rounded-lg whitespace-pre-wrap text-right font-sans"></pre>
-            </div>
-        </div>
-    </div>
-    <div data-modal-id="flashcard" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
-            <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">📇 منشئ بطاقات الكلمات</h3>
-            <form id="flashcardForm">
-                 <div class="mb-6">
-                    <label for="flashcardTopic" class="block text-gray-700 text-sm font-bold mb-2">أدخل موضوع البطاقات:</label>
-                    <input type="text" id="flashcardTopic" placeholder="مثال: حيوانات المزرعة، وسائل النقل..." class="shadow-sm appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500">
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="bg-teal-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-teal-600 transition-colors">
-                        ✨ إنشاء بطاقات
-                    </button>
-                </div>
-            </form>
-            <div id="flashcardResult" class="mt-6 hidden">
-                <div class="flex justify-between items-center mb-2">
-                    <h4 class="text-xl font-bold text-gray-800">محتوى البطاقات المقترح:</h4>
-                    <button class="copy-btn bg-slate-200 text-slate-700 text-sm py-1 px-3 rounded-md hover:bg-slate-300">نسخ النص</button>
-                </div>
-                <div id="flashcardLoader" class="loader mx-auto my-4 hidden"></div>
-                <pre id="flashcardResultText" class="bg-slate-100 p-4 rounded-lg whitespace-pre-wrap text-right font-sans"></pre>
-            </div>
-        </div>
-    </div>
-    <div data-modal-id="corners" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
-            <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">🧩 مقترح الأركان التربوية</h3>
-            <form id="cornersForm">
-                 <div class="mb-6">
-                    <label for="cornersTheme" class="block text-gray-700 text-sm font-bold mb-2">أدخل موضوع الوحدة الدراسية:</label>
-                    <input type="text" id="cornersTheme" placeholder="مثال: الفضاء، عالم البحار..." class="shadow-sm appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500">
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="bg-teal-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-teal-600 transition-colors">
-                        💡 توليد أفكار للأركان
-                    </button>
-                </div>
-            </form>
-            <div id="cornersResult" class="mt-6 hidden">
-                <div class="flex justify-between items-center mb-2">
-                    <h4 class="text-xl font-bold text-gray-800">أفكار مقترحة للأركان:</h4>
-                    <button class="copy-btn bg-slate-200 text-slate-700 text-sm py-1 px-3 rounded-md hover:bg-slate-300">نسخ النص</button>
-                </div>
-                <div id="cornersLoader" class="loader mx-auto my-4 hidden"></div>
-                <pre id="cornersResultText" class="bg-slate-100 p-4 rounded-lg whitespace-pre-wrap text-right font-sans"></pre>
-            </div>
-        </div>
-    </div>
-    <div data-modal-id="differentiation" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
-            <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-            <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">🔧 مكيف الأنشطة</h3>
-            <form id="differentiationForm">
-                 <div class="mb-4">
-                    <label for="diffActivity" class="block text-gray-700 text-sm font-bold mb-2">صف النشاط الأصلي:</label>
-                    <textarea id="diffActivity" rows="3" placeholder="مثال: قص شريط من الورق على خط مستقيم..." class="shadow-sm appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500"></textarea>
-                </div>
-                <div class="mb-6">
-                    <label for="diffGoal" class="block text-gray-700 text-sm font-bold mb-2">اختر الهدف:</label>
-                    <select id="diffGoal" class="block appearance-none w-full bg-gray-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                        <option value="اجعله أبسط">جعله أبسط (Simplification)</option>
-                        <option value="اجعله أكثر تحديًا">جعله أكثر تحديًا (Enrichment)</option>
-                    </select>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="bg-teal-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-teal-600 transition-colors">
-                        ✨ تكييف النشاط
-                    </button>
-                </div>
-            </form>
-            <div id="differentiationResult" class="mt-6 hidden">
-                <div class="flex justify-between items-center mb-2">
-                    <h4 class="text-xl font-bold text-gray-800">اقتراحات التكييف:</h4>
-                    <button class="copy-btn bg-slate-200 text-slate-700 text-sm py-1 px-3 rounded-md hover:bg-slate-300">نسخ النص</button>
-                </div>
-                <div id="differentiationLoader" class="loader mx-auto my-4 hidden"></div>
-                <pre id="differentiationResultText" class="bg-slate-100 p-4 rounded-lg whitespace-pre-wrap text-right font-sans"></pre>
-            </div>
-        </div>
+        <div id="modals-container"></div>
     </div>
     
     <script>
-        const apiKey = "AIzaSyCsjnW_ubOZzONcKDIEhmcErpZOB1VK4I4";
-        const textApiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-        const imageApiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
-        
-        const modals = document.querySelectorAll('[data-modal-id]');
-        const tabs = document.querySelectorAll('.gemini-tab');
-
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const modalId = tab.dataset.modal;
-                const targetModal = document.querySelector(`[data-modal-id="${modalId}"]`);
-                
-                tabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                
-                if (targetModal) {
-                    targetModal.classList.remove('hidden');
-                    targetModal.classList.add('flex');
+        document.addEventListener('DOMContentLoaded', () => {
+            const apiKey = "AIzaSyCsjnW_ubOZzONcKDIEhmcErpZOB1VK4I4"; // IMPORTANT: Add your Gemini API Key here
+            const textApiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+            
+            const toolsData = {
+                "التخطيط": {
+                    color: "blue",
+                    tools: [
+                        { id: "unit", icon: "📅", name: "مخطط الوحدات", desc: "خطط لوحدة دراسية كاملة." },
+                        { id: "lesson", icon: "✨", name: "مخطط الدروس", desc: "جهز لدرسك في دقائق." },
+                        { id: "objectives", icon: "🎯", name: "مساعد الأهداف", desc: "حدد أهدافاً تربوية واضحة." },
+                        { id: "corners", icon: "🧩", name: "مقترح الأركان", desc: "أفكار إبداعية لأركان فصلك." }
+                    ]
+                },
+                "إنشاء المحتوى": {
+                     color: "green",
+                     tools: [
+                        { id: "activity", icon: "💡", name: "مولّد الأنشطة", desc: "احصل على أفكار أنشطة جديدة." },
+                        { id: "story", icon: "📖", name: "مولّد القصص", desc: "اكتب قصصاً مخصصة للأطفال." },
+                        { id: "song", icon: "🎶", name: "مولّد الأناشيد", desc: "ألّف أناشيد تعليمية بسهولة." },
+                        { id: "questions", icon: "🤔", name: "مولّد الأسئلة", desc: "اطرح أسئلة تثير الفضول." },
+                        { id: "flashcard", icon: "📇", name: "منشئ البطاقات", desc: "جهز بطاقات كلمات تعليمية." }
+                     ]
+                },
+                "إدارة الفصل": {
+                     color: "yellow",
+                     tools: [
+                        { id: "transition", icon: "🚀", name: "مساعد الانتقالات", desc: "نظم الفترات الانتقالية." },
+                        { id: "conflict", icon: "🗣️", name: "مساعد النزاعات", desc: "حوّل النزاعات لفرص تعلم." },
+                        { id: "roleplay", icon: "🎭", name: "لعب الأدوار", desc: "علّم المهارات الاجتماعية." },
+                        { id: "differentiation", icon: "🔧", name: "مكيف الأنشطة", desc: "كيّف الأنشطة لمختلف المستويات." },
+                        { id: "support", icon: "🤝", name: "الدعم الفردي", desc: "ضع خطط دعم مخصصة." }
+                     ]
+                },
+                 "المتابعة والتواصل": {
+                     color: "purple",
+                     tools: [
+                        { id: "observation", icon: "📋", name: "تدوين الملاحظات", desc: "حوّل ملاحظاتك لتقارير." },
+                        { id: "communication", icon: "✉️", name: "رسائل للأهل", desc: "تواصل بفعالية مع الآباء." },
+                        { id: "parent", icon: "🏡", name: "أنشطة منزلية", desc: "عزز التعلم في المنزل." },
+                        { id: "summary", icon: "📝", name: "ملخص اليوم", desc: "لخص يوم الأطفال بإيجابية." }
+                     ]
                 }
-            });
-        });
-
-        modals.forEach(modal => {
-            const closeButton = modal.querySelector('[data-close-button]');
-            closeButton.addEventListener('click', () => {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            });
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.classList.add('hidden');
-                    modal.classList.remove('flex');
-                }
-            });
-        });
-        
-        const forms = {
-            activity: document.getElementById('activityForm'),
-            communication: document.getElementById('communicationForm'),
-            story: document.getElementById('storyForm'),
-            summary: document.getElementById('summaryForm'),
-            support: document.getElementById('supportForm'),
-            lesson: document.getElementById('lessonForm'),
-            song: document.getElementById('songForm'),
-            observation: document.getElementById('observationForm'),
-            conflict: document.getElementById('conflictForm'),
-            objectives: document.getElementById('objectivesForm'),
-            questions: document.getElementById('questionsForm'),
-            unit: document.getElementById('unitForm'),
-            transition: document.getElementById('transitionForm'),
-            roleplay: document.getElementById('roleplayForm'),
-            parent: document.getElementById('parentForm'),
-            flashcard: document.getElementById('flashcardForm'),
-            corners: document.getElementById('cornersForm'),
-            differentiation: document.getElementById('differentiationForm')
-        };
-
-        const results = {
-            activity: document.getElementById('activityResult'),
-            communication: document.getElementById('communicationResult'),
-            story: document.getElementById('storyResult'),
-            summary: document.getElementById('summaryResult'),
-            support: document.getElementById('supportResult'),
-            lesson: document.getElementById('lessonResult'),
-            song: document.getElementById('songResult'),
-            observation: document.getElementById('observationResult'),
-            conflict: document.getElementById('conflictResult'),
-            objectives: document.getElementById('objectivesResult'),
-            questions: document.getElementById('questionsResult'),
-            unit: document.getElementById('unitResult'),
-            transition: document.getElementById('transitionResult'),
-            roleplay: document.getElementById('roleplayResult'),
-            parent: document.getElementById('parentResult'),
-            flashcard: document.getElementById('flashcardResult'),
-            corners: document.getElementById('cornersResult'),
-            differentiation: document.getElementById('differentiationResult')
-        };
-        
-        const resultTexts = {
-            activity: document.getElementById('activityResultText'),
-            communication: document.getElementById('commResultText'),
-            story: document.getElementById('storyResultText'),
-            summary: document.getElementById('summaryResultText'),
-            support: document.getElementById('supportResultText'),
-            lesson: document.getElementById('lessonResultText'),
-            song: document.getElementById('songResultText'),
-            observation: document.getElementById('observationResultText'),
-            conflict: document.getElementById('conflictResultText'),
-            objectives: document.getElementById('objectivesResultText'),
-            questions: document.getElementById('questionsResultText'),
-            unit: document.getElementById('unitResultText'),
-            transition: document.getElementById('transitionResultText'),
-            roleplay: document.getElementById('roleplayResultText'),
-            parent: document.getElementById('parentResultText'),
-            flashcard: document.getElementById('flashcardResultText'),
-            corners: document.getElementById('cornersResultText'),
-            differentiation: document.getElementById('differentiationResultText')
-        };
-        
-        const loaders = {
-            activity: document.getElementById('activityLoader'),
-            communication: document.getElementById('commLoader'),
-            story: document.getElementById('storyLoader'),
-            summary: document.getElementById('summaryLoader'),
-            support: document.getElementById('supportLoader'),
-            lesson: document.getElementById('lessonLoader'),
-            song: document.getElementById('songLoader'),
-            observation: document.getElementById('observationLoader'),
-            conflict: document.getElementById('conflictLoader'),
-            objectives: document.getElementById('objectivesLoader'),
-            questions: document.getElementById('questionsLoader'),
-            unit: document.getElementById('unitLoader'),
-            transition: document.getElementById('transitionLoader'),
-            roleplay: document.getElementById('roleplayLoader'),
-            parent: document.getElementById('parentLoader'),
-            flashcard: document.getElementById('flashcardLoader'),
-            corners: document.getElementById('cornersLoader'),
-            differentiation: document.getElementById('differentiationLoader'),
-            image: document.getElementById('imageLoader')
-        };
-
-        function copyTextToClipboard(text, button) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-            textArea.style.position = "fixed"; 
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            try {
-                document.execCommand('copy');
-                const originalText = button.textContent;
-                button.textContent = 'تم النسخ!';
-                setTimeout(() => {
-                    button.textContent = originalText;
-                }, 2000);
-            } catch (err) {
-                console.error('Fallback: Oops, unable to copy', err);
-            }
-            document.body.removeChild(textArea);
-        }
-
-        document.querySelectorAll('.copy-btn').forEach(button => {
-            button.addEventListener('click', (e) => {
-                const textToCopy = e.target.closest('div[id$="Result"]').querySelector('pre').textContent;
-                copyTextToClipboard(textToCopy, e.target);
-            });
-        });
-        
-        async function handleFormSubmit(e, formType, userQueryBuilder, systemPrompt) {
-            e.preventDefault();
-            const { form, result, loader, resultText } = { 
-                form: forms[formType],
-                result: results[formType], 
-                loader: loaders[formType], 
-                resultText: resultTexts[formType] 
             };
-            
-            const userQueryData = userQueryBuilder(form);
-            if (!userQueryData) return;
 
-            result.classList.remove('hidden');
-            loader.classList.remove('hidden');
-            resultText.textContent = '';
-            
-            try {
-                resultText.textContent = await generateTextWithRetry(systemPrompt, userQueryData.query);
-                form.reset();
-            } catch (error) {
-                resultText.textContent = 'عذرًا، حدث خطأ. الرجاء المحاولة مرة أخرى.';
-            } finally {
-                loader.classList.add('hidden');
-            }
-        }
+            const colors = {
+                blue: { border: "border-blue-500", text: "text-blue-600" },
+                green: { border: "border-green-500", text: "text-green-600" },
+                yellow: { border: "border-yellow-500", text: "text-yellow-600" },
+                purple: { border: "border-purple-500", text: "text-purple-600" },
+            };
 
-        forms.activity.addEventListener('submit', (e) => handleFormSubmit(e, 'activity', form => {
-            const type = form.querySelector('#activityType').value;
-            const theme = form.querySelector('#activityTheme').value;
-            if (!theme.trim()) { alert('الرجاء إدخال موضوع للنشاط.'); return null; }
-            return { query: `اقترح لي ${type} حول موضوع "${theme}". قدم شرحًا موجزًا للخطوات والمواد اللازمة إن وجدت.` };
-        }, "أنت مربية أطفال خبيرة ومبدعة. مهمتك هي اقتراح أنشطة بسيطة وممتعة للأطفال بعمر 3-5 سنوات. الاقتراحات يجب أن تكون واضحة، قصيرة، ومناسبة لبيئة روضة الأطفال."));
+            function renderTools(filter = '') {
+                const desktopContainer = document.getElementById('tools-container');
+                const mobileContainer = document.getElementById('mobile-tools-container');
+                desktopContainer.innerHTML = '';
+                mobileContainer.innerHTML = '';
 
-        forms.communication.addEventListener('submit', (e) => handleFormSubmit(e, 'communication', form => {
-            const tone = form.querySelector('#commTone').value;
-            const points = form.querySelector('#commPoints').value;
-            if (!points.trim()) { alert('الرجاء إدخال ملاحظات عن يوم الطفل.'); return null; }
-            return { query: `بناءً على الملاحظات التالية عن يوم الطفل: "${points}"، الرجاء صياغة مسودة رسالة لولي الأمر بنبرة "${tone}".` };
-        }, "أنت مساعد لمعلمة رياض أطفال، تتمتع بالخبرة واللطف. مهمتك هي صياغة رسائل احترافية ودافئة لأولياء الأمور باللغة العربية. يجب أن تكون الرسائل موجزة وإيجابية."));
-
-        forms.story.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const character = document.getElementById('storyCharacter').value;
-            const theme = document.getElementById('storyTheme').value;
-            if (!theme.trim() || !character.trim()) { alert('الرجاء إدخال اسم الشخصية وموضوع القصة.'); return; }
-            const { result, loader, resultText } = { result: results.story, loader: loaders.story, resultText: resultTexts.story };
-            result.classList.remove('hidden');
-            loader.classList.remove('hidden');
-            document.getElementById('generateImageBtn').classList.add('hidden');
-            document.getElementById('imageResult').classList.add('hidden');
-            resultText.textContent = '';
-            const systemPrompt = "أنت كاتب قصص أطفال متخصص. اكتب قصة قصيرة جداً وبسيطة (حوالي 4-6 جمل) للأطفال بعمر 3-5 سنوات. يجب أن تكون القصة إيجابية وذات مغزى بسيط.";
-            const userQuery = `اكتب قصة عن شخصية اسمها "${character}" وموضوعها هو "${theme}".`;
-            try {
-                const storyText = await generateTextWithRetry(systemPrompt, userQuery);
-                resultText.textContent = storyText;
-                document.getElementById('generateImageBtn').classList.remove('hidden');
-                e.target.reset();
-            } catch (error) {
-                resultText.textContent = 'عذرًا، حدث خطأ أثناء كتابة القصة. الرجاء المحاولة مرة أخرى.';
-            } finally {
-                loader.classList.add('hidden');
-            }
-        });
-
-        forms.summary.addEventListener('submit', (e) => handleFormSubmit(e, 'summary', form => {
-            const points = form.querySelector('#summaryPoints').value;
-            if (!points.trim()) { alert('الرجاء إدخال كلمات رئيسية.'); return null; }
-            return { query: `استخدمي هذه النقاط لصياغة الملخص: "${points}"` };
-        }, "أنت معلمة رياض أطفال مرحة ومحبوبة. مهمتك هي صياغة ملخص قصير ومبهج لنهاية اليوم الدراسي، موجه للأطفال. استخدم لغة بسيطة وعبارات تشجيعية. ابدأ بـ 'أصدقائي الصغار الرائعون!' واختتم بـ 'لقد كنتم مدهشين اليوم! أراكم غدًا.'"));
-
-        forms.lesson.addEventListener('submit', (e) => handleFormSubmit(e, 'lesson', form => {
-            const objective = form.querySelector('#lessonObjective').value;
-            const duration = form.querySelector('#lessonDuration').value;
-            if (!objective.trim()) { alert('الرجاء إدخال الهدف التعليمي.'); return null; }
-            return { query: `بناءً على الهدف: "${objective}"، ولمدة "${duration}"، قم بإنشاء خطة درس بسيطة باللغة العربية مقسمة إلى: 1. تهيئة، 2. نشاط رئيسي، 3. ختام.` };
-        }, "أنت خبير في تصميم المناهج للتعليم المبكر. مهمتك هي إنشاء خطط دروس قصيرة، تفاعلية، ومناسبة لنمو الأطفال."));
-
-        forms.song.addEventListener('submit', (e) => handleFormSubmit(e, 'song', form => {
-            const theme = form.querySelector('#songTheme').value;
-            if (!theme.trim()) { alert('الرجاء إدخال موضوع للأنشودة.'); return null; }
-            return { query: `اكتب لي أنشودة قصيرة حول موضوع "${theme}".` };
-        }, "أنت شاعر وملحن متخصص في كتابة أغاني وأناشيد بسيطة وممتعة للأطفال بعمر 3-5 سنوات. يجب أن تكون الكلمات سهلة الحفظ. قدم الأنشودة في مقطعين قصيرين."));
-
-        forms.observation.addEventListener('submit', (e) => handleFormSubmit(e, 'observation', form => {
-            const text = form.querySelector('#observationText').value;
-            if (!text.trim()) { alert('الرجاء إدخال ملاحظتك.'); return null; }
-            return { query: `بناءً على هذه الملاحظة: "${text}"، اكتب ملاحظة مهنية منظمة تربط السلوك بمجال نمائي.` };
-        }, "أنت خبير في تربية الطفولة المبكرة. مهمتك هي تحويل ملاحظة مختصرة إلى ملاحظة مهنية منظمة، إيجابية، وموضوعية تربط السلوك بمجال نمائي مناسب."));
-        
-        forms.conflict.addEventListener('submit', (e) => handleFormSubmit(e, 'conflict', form => {
-            const description = form.querySelector('#conflictDescription').value;
-            if (!description.trim()) { alert('الرجاء وصف النزاع.'); return null; }
-            return { query: `لدينا هذا الموقف: "${description}". قدم خطة عمل من 3 خطوات بسيطة، مع أمثلة لعبارات يمكنني قولها للأطفال.` };
-        }, "أنت موجه تربوي خبير في حل النزاعات بين الأطفال الصغار. مهمتك هي تقديم خطوات عملية وهادئة لتحويل النزاع إلى فرصة للتعلم."));
-        
-        forms.objectives.addEventListener('submit', (e) => handleFormSubmit(e, 'objectives', form => {
-            const activity = form.querySelector('#objectivesActivity').value;
-            if (!activity.trim()) { alert('الرجاء وصف النشاط.'); return null; }
-            return { query: `بالنسبة للنشاط: "${activity}"، حدد 2-3 أهداف تربوية أساسية ينميها هذا النشاط. قدمها في قائمة نقطية.` };
-        }, "أنت خبير في المناهج التربوية للتعليم الأولي. مهمتك هي تحديد الأهداف التربوية الرئيسية التي يمكن تحقيقها من خلال نشاط معين."));
-        
-        forms.questions.addEventListener('submit', (e) => handleFormSubmit(e, 'questions', form => {
-            const topic = form.querySelector('#questionsTopic').value;
-            if (!topic.trim()) { alert('الرجاء إدخال الموضوع.'); return null; }
-            return { query: `حول موضوع "${topic}"، اقترح 4-5 أسئلة مفتوحة ومناسبة للأطفال لإثارة فضولهم.` };
-        }, "أنت مربية ماهرة في إثارة فضول الأطفال. مهمتك هي صياغة أسئلة مفتوحة ومحفزة للحوار."));
-        
-        forms.unit.addEventListener('submit', (e) => handleFormSubmit(e, 'unit', form => {
-            const theme = form.querySelector('#unitTheme').value;
-            const duration = form.querySelector('#unitDuration').value;
-            if (!theme.trim()) { alert('الرجاء إدخال موضوع للوحدة.'); return null; }
-            return { query: `بناءً على موضوع "${theme}"، ولمدة "${duration}"، أنشئ مخطط وحدة دراسية يتضمن أنشطة يومية، أعمال فنية، قصة، أنشودة، ومفردات أساسية.` };
-        }, "أنت خبير في تخطيط المناهج للتعليم الأولي. مهمتك هي إنشاء خطط وحدات دراسية متكاملة وممتعة."));
-        
-        forms.transition.addEventListener('submit', (e) => handleFormSubmit(e, 'transition', form => {
-            const description = form.querySelector('#transitionDescription').value;
-            if (!description.trim()) { alert('الرجاء وصف الموقف.'); return null; }
-            return { query: `أحتاج فكرة للانتقال من "${description}". اقترح لعبة سريعة أو أغنية قصيرة.` };
-        }, "أنت مربية خبيرة في إدارة الفصل. مهمتك هي تقديم أفكار قصيرة ومرحة لجعل فترات الانتقال بين الأنشطة سلسة."));
-        
-        forms.roleplay.addEventListener('submit', (e) => handleFormSubmit(e, 'roleplay', form => {
-            const skill = form.querySelector('#roleplaySkill').value;
-            if (!skill.trim()) { alert('الرجاء وصف المهارة.'); return null; }
-            return { query: `أحتاج سيناريو لعب أدوار لتعليم الأطفال كيفية "${skill}". قدم السيناريو مع تحديد الأدوار وعبارات بسيطة.` };
-        }, "أنت خبير في علم نفس الطفل والتعلم الاجتماعي العاطفي. مهمتك هي إنشاء سيناريوهات لعب أدوار بسيطة وموجزة للأطفال."));
-        
-        forms.parent.addEventListener('submit', (e) => handleFormSubmit(e, 'parent', form => {
-            const topic = form.querySelector('#parentTopic').value;
-            if (!topic.trim()) { alert('الرجاء وصف ما تعلمه الأطفال.'); return null; }
-            return { query: `بناءً على ما تعلمه الأطفال في الفصل اليوم حول: "${topic}"، اقترح نشاطًا منزليًا بسيطًا يمكنني مشاركته مع أولياء الأمور. صغ الاقتراح كرسالة قصيرة وودودة موجهة للآباء.` };
-        }, "أنت خبير في التعليم المبكر ومتخصص في تعزيز الشراكة بين الروضة والمنزل. مهمتك هي تحويل موضوع تعليمي من الفصل إلى نشاط منزلي بسيط وممتع."));
-
-        forms.flashcard.addEventListener('submit', (e) => handleFormSubmit(e, 'flashcard', form => {
-            const topic = form.querySelector('#flashcardTopic').value;
-            if (!topic.trim()) { alert('الرجاء إدخال الموضوع.'); return null; }
-            return { query: `حول موضوع "${topic}"، أنشئ قائمة من 5-7 كلمات أساسية مع وصف بسيط جداً لكل كلمة، لتكون مناسبة لبطاقات تعليمية للأطفال.` };
-        }, "أنت خبير في إعداد المواد التعليمية للأطفال الصغار. مهمتك هي إنشاء محتوى واضح وموجز لبطاقات الكلمات التعليمية (Flashcards)."));
-
-        forms.corners.addEventListener('submit', (e) => handleFormSubmit(e, 'corners', form => {
-            const theme = form.querySelector('#cornersTheme').value;
-            if (!theme.trim()) { alert('الرجاء إدخال موضوع الوحدة.'); return null; }
-            return { query: `لموضوع "${theme}"، اقترح فكرة واحدة مبتكرة وبسيطة لكل ركن من الأركان التربوية التالية: ركن الفن، ركن العلوم، وركن القراءة.` };
-        }, "أنت مربية مبدعة ومتخصصة في تجهيز الفصول الدراسية. مهمتك هي تقديم أفكار عملية ومبتكرة لتجهيز الأركان التربوية لتتناسب مع الوحدة الدراسية."));
-
-        forms.differentiation.addEventListener('submit', (e) => handleFormSubmit(e, 'differentiation', form => {
-            const activity = form.querySelector('#diffActivity').value;
-            const goal = form.querySelector('#diffGoal').value;
-            if (!activity.trim()) { alert('الرجاء وصف النشاط.'); return null; }
-            return { query: `بالنسبة للنشاط التالي: "${activity}"، اقترح 2-3 طرق عملية ومختلفة لكي "${goal}".` };
-        }, "أنت خبير تربوي متخصص في التكييف البيداغوجي (differentiation). مهمتك هي تقديم اقتراحات بسيطة وعملية لتكييف الأنشطة التعليمية لتناسب المستويات المختلفة للأطفال."));
-
-        forms.support.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const supportNeeds = document.getElementById('supportNeeds').value;
-            if (!supportNeeds.trim()) { alert('الرجاء وصف احتياج الطفل.'); return; }
-            const { result, loader, resultText } = { result: results.support, loader: loaders.support, resultText: resultTexts.support };
-            result.classList.remove('hidden');
-            loader.classList.remove('hidden');
-            resultText.textContent = '';
-            const systemPrompt = "أنت خبير في تربية الطفولة المبكرة وعلم نفس النمو. مهمتك هي تقديم توصيات مخصصة وعملية لدعم طفل معين.";
-            const userQuery = `بالنظر إلى جدول يومي قياسي، اقترح 3-4 تعديلات بسيطة وعملية لدعم طفل لديه الاحتياجات التالية: "${supportNeeds}". قدم الاقتراحات كقائمة نقطية.`;
-            try {
-                resultText.textContent = await generateTextWithRetry(systemPrompt, userQuery);
-                e.target.reset();
-            } catch (error) {
-                resultText.textContent = 'عذرًا، حدث خطأ أثناء إنشاء الخطة. الرجاء المحاولة مرة أخرى.';
-            } finally {
-                loader.classList.add('hidden');
-            }
-        });
-
-
-        document.getElementById('generateImageBtn').addEventListener('click', async () => {
-            const storyText = resultTexts.story.textContent;
-            if (!storyText) return;
-
-            document.getElementById('imageResult').classList.remove('hidden');
-            loaders.image.classList.remove('hidden');
-            document.getElementById('storyImage').src = '';
-            document.getElementById('generateImageBtn').disabled = true;
-
-            const promptGenSystemPrompt = "You are an expert prompt engineer. Your task is to create a simple, effective prompt based on a children's story.";
-            const promptGenUserQuery = `From this story, create a prompt for an image in a 'simple, colorful, friendly cartoon style for a children's book'. Story: "${storyText}"`;
-
-            try {
-                const imagePrompt = await generateTextWithRetry(promptGenSystemPrompt, userQuery);
-                const base64Data = await generateImageWithRetry(imagePrompt);
-                document.getElementById('storyImage').src = `data:image/png;base64,${base64Data}`;
-            } catch(error) {
-                console.error("Error generating image:", error);
-                alert("عذرًا، لم نتمكن من توليد الصورة.");
-            } finally {
-                loaders.image.classList.add('hidden');
-                document.getElementById('generateImageBtn').disabled = false;
-            }
-        });
-        
-        async function generateImageWithRetry(prompt, retries = 3, delay = 1000) {
-             for (let i = 0; i < retries; i++) {
-                try {
-                    const payload = { instances: [{ prompt: prompt }], parameters: { "sampleCount": 1 } };
-                    const response = await fetch(imageApiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-                    if (!response.ok) throw new Error(`API request failed with status ${response.status}`);
+                for (const groupName in toolsData) {
+                    const group = toolsData[groupName];
+                    const filteredTools = group.tools.filter(tool => tool.name.includes(filter) || tool.desc.includes(filter));
                     
-                    const result = await response.json();
-                    if (result.predictions && result.predictions.length > 0 && result.predictions[0].bytesBase64Encoded) {
-                        return result.predictions[0].bytesBase64Encoded;
-                    } else {
-                        throw new Error('Invalid image response structure');
-                    }
-                } catch (error) {
-                    console.error(`Image generation attempt ${i + 1} failed:`, error);
-                    if (i < retries - 1) {
-                        await new Promise(res => setTimeout(res, delay * Math.pow(2, i)));
-                    } else {
-                        throw error;
+                    if (filteredTools.length === 0) continue;
+
+                    let toolsHTML = '';
+                    filteredTools.forEach(tool => {
+                        toolsHTML += `
+                            <button data-modal="${tool.id}" class="w-full text-right p-4 rounded-lg bg-slate-50 hover:bg-slate-100 tool-card">
+                                <div class="flex items-center gap-4">
+                                    <span class="text-4xl">${tool.icon}</span>
+                                    <div>
+                                        <h4 class="font-bold text-lg text-gray-800">${tool.name}</h4>
+                                        <p class="text-sm text-gray-500">${tool.desc}</p>
+                                    </div>
+                                </div>
+                            </button>
+                        `;
+                    });
+
+                    const desktopGroupHTML = `
+                        <div class="tool-group">
+                            <h3 class="border-b-2 ${colors[group.color].border} ${colors[group.color].text}">${groupName}</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                                ${toolsHTML}
+                            </div>
+                        </div>`;
+                    
+                    const mobileGroupHTML = `
+                        <div class="tool-group snap-start flex-shrink-0 w-4/5">
+                            <h3 class="border-b-2 ${colors[group.color].border} ${colors[group.color].text}">${groupName}</h3>
+                            <div class="grid grid-cols-1 gap-4 mt-4">
+                                ${toolsHTML}
+                            </div>
+                        </div>`;
+
+                     desktopContainer.innerHTML += desktopGroupHTML;
+                     mobileContainer.innerHTML += mobileGroupHTML;
+                }
+                
+                document.querySelectorAll('[data-modal]').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const modalId = button.dataset.modal;
+                        const targetModal = document.querySelector(`[data-modal-id="${modalId}"]`);
+                        if (targetModal) {
+                            targetModal.classList.remove('hidden');
+                            targetModal.classList.add('flex');
+                        }
+                    });
+                });
+            }
+            
+            document.getElementById('search-tools').addEventListener('input', (e) => {
+                renderTools(e.target.value);
+            });
+            
+            async function generateTextWithRetry(systemPrompt, userQuery, retries = 3, delay = 1000) {
+                if (!apiKey) {
+                    return "خطأ: مفتاح API الخاص بـ Gemini غير موجود. يرجى إضافته في الكود.";
+                }
+                for (let i = 0; i < retries; i++) {
+                    try {
+                        const payload = {
+                            contents: [{ parts: [{ text: userQuery }] }],
+                            systemInstruction: { parts: [{ text: systemPrompt }] },
+                        };
+                        const response = await fetch(textApiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (!response.ok) {
+                             const errorBody = await response.json();
+                             console.error("API Error:", errorBody);
+                             throw new Error(`API request failed with status ${response.status}`);
+                        }
+                        
+                        const result = await response.json();
+                        const candidate = result.candidates?.[0];
+                        if (candidate && candidate.content?.parts?.[0]?.text) {
+                            return candidate.content.parts[0].text;
+                        } else {
+                            console.warn("Unexpected API response structure:", result);
+                            if(candidate && candidate.finishReason !== 'STOP'){
+                                return `تم حظر الطلب. السبب: ${candidate.finishReason}`;
+                            }
+                            throw new Error('Invalid response structure from API');
+                        }
+                    } catch (error) {
+                        console.error(`Text generation attempt ${i + 1} failed:`, error);
+                        if (i < retries - 1) {
+                            await new Promise(res => setTimeout(res, delay * Math.pow(2, i)));
+                        } else {
+                           throw error;
+                        }
                     }
                 }
             }
-        }
-        
-        async function generateTextWithRetry(systemPrompt, userQuery, retries = 3, delay = 1000) {
-            for (let i = 0; i < retries; i++) {
-                try {
-                    const payload = {
-                        contents: [{ parts: [{ text: userQuery }] }],
-                        systemInstruction: { parts: [{ text: systemPrompt }] },
-                    };
-                    const response = await fetch(textApiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
 
-                    if (!response.ok) throw new Error(`API request failed with status ${response.status}`);
-                    
-                    const result = await response.json();
-                    const candidate = result.candidates?.[0];
-                    if (candidate && candidate.content?.parts?.[0]?.text) {
-                        return candidate.content.parts[0].text;
-                    } else {
-                        throw new Error('Invalid response structure from API');
-                    }
-                } catch (error) {
-                    console.error(`Text generation attempt ${i + 1} failed:`, error);
-                    if (i < retries - 1) {
-                        await new Promise(res => setTimeout(res, delay * Math.pow(2, i)));
-                    } else {
-                        throw error;
-                    }
-                }
-            }
-        }
+            renderTools();
+        });
     </script>
 </body>
 </html>
-
-
 
