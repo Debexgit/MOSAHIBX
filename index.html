@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مصاحب: مساعدك التربوي الذكي</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -14,20 +13,6 @@
             font-family: 'Cairo', sans-serif;
             direction: rtl;
             background-color: #f8fafc;
-        }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 450px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 300px;
-            max-height: 400px;
-        }
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 350px;
-            }
         }
         .loader {
             border: 4px solid #f3f3f3;
@@ -57,587 +42,336 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
-        .timeline::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            right: 1.25rem;
-            width: 3px;
-            background-color: #d1d5db;
-            transform: translateX(50%);
-        }
-        .timeline-item {
-            position: relative;
-            padding-right: 3.5rem;
-            margin-bottom: 2rem;
-        }
-        .timeline-dot {
-            content: '';
-            position: absolute;
-            top: 0.5rem;
-            right: 0;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background-color: white;
-            border: 4px solid #14b8a6;
-        }
-
-        @media (min-width: 768px) {
-            .timeline::before {
-                right: 50%;
-            }
-            .timeline-item {
-                width: 50%;
-                padding-right: 2rem;
-                padding-left: 2rem;
-            }
-            .timeline-item:nth-child(odd) {
-                align-self: flex-start;
-                padding-left: 4rem;
-                padding-right: 0;
-            }
-            .timeline-item:nth-child(even) {
-                align-self: flex-end;
-                padding-right: 4rem;
-                padding-left: 0;
-            }
-            .timeline-item:nth-child(odd) .timeline-dot {
-                right: -10px;
-                left: auto;
-            }
-             .timeline-item:nth-child(even) .timeline-dot {
-                left: -10px;
-                right: auto;
-            }
-        }
-        
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 1rem;
-        }
-        .modal-content {
-            background-color: white;
-            border-radius: 1rem;
-            width: 100%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-        .modal-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid #e5e7eb;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .modal-body {
-            padding: 1.5rem;
-        }
-        .modal-footer {
-            padding: 1.5rem;
-            border-top: 1px solid #e5e7eb;
-            display: flex;
-            justify-content: flex-end;
-            gap: 0.75rem;
-        }
-        .close-modal {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #6b7280;
-        }
-        .close-modal:hover {
+        .tool-group h3 {
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+            font-weight: 700;
             color: #374151;
-        }
-        .result-container {
-            margin-top: 1.5rem;
-            padding: 1rem;
-            background-color: #f9fafb;
-            border-radius: 0.5rem;
-            border: 1px solid #e5e7eb;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 0.5rem;
         }
     </style>
 </head>
 <body class="bg-slate-50 text-gray-800">
 
-    <div class="container mx-auto max-w-5xl p-4 sm:p-6 md:p-8">
-
-        <header class="text-center mb-16">
-            <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight">مصاحب</h1>
-            <h2 class="text-2xl md:text-3xl font-bold text-teal-600 mt-2">دليلك الشامل لتنمية طفل اليوم</h2>
-            <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">وفق الإطار المنهاجي المعتمد، معزز بأدوات ذكية لتسهيل مهامك اليومية.</p>
-        </header>
-
-        <main class="space-y-20">
-
-             <section id="gemini-assistant">
-                <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
-                     <h2 class="text-3xl font-bold text-teal-600 mb-4 text-center">🤖 اختر أداتك الذكية</h2>
-                     <p class="text-lg text-gray-700 max-w-3xl mx-auto mb-8 text-center">
-                        أدوات إبداعية تحت تصرفك. اختر إحدى المهام أدناه ودع الذكاء الاصطناعي يساعدك في التخطيط والإبداع.
-                    </p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        <div class="tool-group">
-                            <h3 class="font-bold text-lg mb-3 text-gray-800">التخطيط</h3>
-                            <div class="flex flex-col items-start gap-3">
-                                <button data-modal="unit" class="gemini-tab font-semibold text-lg py-2 w-full text-right px-4 rounded-lg bg-slate-100 hover:bg-teal-100 transition-colors">📅 مخطط الوحدات</button>
-                                <button data-modal="lesson" class="gemini-tab font-semibold text-lg py-2 w-full text-right px-4 rounded-lg bg-slate-100 hover:bg-teal-100 transition-colors">✨ مخطط الدروس</button>
-                                <button data-modal="objectives" class="gemini-tab font-semibold text-lg py-2 w-full text-right px-4 rounded-lg bg-slate-100 hover:bg-teal-100 transition-colors">🎯 مساعد الأهداف</button>
-                                <button data-modal="corners" class="gemini-tab font-semibold text-lg py-2 w-full text-right px-4 rounded-lg bg-slate-100 hover:bg-teal-100 transition-colors">🧩 مقترح الأركان</button>
-                            </div>
-                        </div>
-                         <div class="tool-group">
-                            <h3 class="font-bold text-lg mb-3 text-gray-800">إنشاء المحتوى</h3>
-                            <div class="flex flex-col items-start gap-3">
-                                <button data-modal="activity" class="gemini-tab font-semibold text-lg py-2 w-full text-right px-4 rounded-lg bg-slate-100 hover:bg-teal-100 transition-colors">💡 مولّد الأنشطة</button>
-                                <button data-modal="story" class="gemini-tab font-semibold text-lg py-2 w-full text-right px-4 rounded-lg bg-slate-100 hover:bg-teal-100 transition-colors">📖 مولّد القصص</button>
-                                <button data-modal="song" class="gemini-tab font-semibold text-lg py-2 w-full text-right px-4 rounded-lg bg-slate-100 hover:bg-teal-100 transition-colors">🎶 مولّد الأناشيد</button>
-                                <button data-modal="questions" class="gemini-tab font-semibold text-lg py-2 w-full text-right px-4 rounded-lg bg-slate-100 hover:bg-teal-100 transition-colors">🤔 مولّد الأسئلة</button>
-                                <button data-modal="flashcard" class="gemini-tab font-semibold text-lg py-2 w-full text-right px-4 rounded-lg bg-slate-100 hover:bg-teal-100 transition-colors">📇 منشئ البطاقات</button>
-                            </div>
-                        </div>
-                         <div class="tool-group">
-                            <h3 class="font-bold text-lg mb-3 text-gray-800">إدارة الفصل</h3>
-                            <div class="flex flex-col items-start gap-3">
-                                <button data-modal="transition" class="gemini-tab font-semibold text-lg py-2 w-full text-right px-4 rounded-lg bg-slate-100 hover:bg-teal-100 transition-colors">🚀 مساعد الانتقالات</button>
-                                <button data-modal="conflict" class="gemini-tab font-semibold text-lg py-2 w-full text-right px-4 rounded-lg bg-slate-100 hover:bg-teal-100 transition-colors">🗣️ مساعد النزاعات</button>
-                                <button data-modal="roleplay" class="gemini-tab font-semibold text-lg py-2 w-full text-right px-4 rounded-lg bg-slate-100 hover:bg-teal-100 transition-colors">🎭 لعب الأدوار</button>
-                                <button data-modal="differentiation" class="gemini-tab font-semibold text-lg py-2 w-full text-right px-4 rounded-lg bg-slate-100 hover:bg-teal-100 transition-colors">🔧 مكيف الأنشطة</button>
-                                <button data-modal="support" class="gemini-tab font-semibold text-lg py-2 w-full text-right px-4 rounded-lg bg-slate-100 hover:bg-teal-100 transition-colors">🤝 الدعم الفردي</button>
-                            </div>
-                        </div>
-                         <div class="tool-group">
-                            <h3 class="font-bold text-lg mb-3 text-gray-800">المتابعة والتواصل</h3>
-                            <div class="flex flex-col items-start gap-3">
-                                <button data-modal="observation" class="gemini-tab font-semibold text-lg py-2 w-full text-right px-4 rounded-lg bg-slate-100 hover:bg-teal-100 transition-colors">📋 تدوين الملاحظات</button>
-                                <button data-modal="communication" class="gemini-tab font-semibold text-lg py-2 w-full text-right px-4 rounded-lg bg-slate-100 hover:bg-teal-100 transition-colors">✉️ رسائل للأهل</button>
-                                <button data-modal="parent" class="gemini-tab font-semibold text-lg py-2 w-full text-right px-4 rounded-lg bg-slate-100 hover:bg-teal-100 transition-colors">🏡 أنشطة منزلية</button>
-                                <button data-modal="summary" class="gemini-tab font-semibold text-lg py-2 w-full text-right px-4 rounded-lg bg-slate-100 hover:bg-teal-100 transition-colors">📝 ملخص اليوم</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="vision" class="bg-white rounded-2xl shadow-lg p-6 md:p-8 overflow-hidden">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                    <div class="text-content">
-                        <h2 class="text-3xl font-bold text-teal-600 mb-4">🧡 رؤيتنا: طفل متكامل في بيئة آمنة</h2>
-                        <p class="text-gray-700 leading-relaxed text-lg">
-                            نؤمن بأن كل طفل مشروع فريد. رؤيتنا ترتكز على توفير بيئة تربوية آمنة ومحفزة تضمن له التنمية الشاملة والمتوازنة في أبعادها العقلية، الجسدية، والوجدانية. هذا المنهج يهدف إلى بناء شخصية الطفل بشكل متكامل ومتناغم.
-                        </p>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="visionChart"></canvas>
-                    </div>
-                </div>
-            </section>
-            
-            <section id="pillars">
-                <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">🏛️ ركائزنا البيداغوجية الأساسية</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    
-                    <div class="bg-white rounded-2xl shadow-lg p-6 text-center transform hover:scale-105 transition-transform duration-300 flex flex-col items-center">
-                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-yellow-100 text-yellow-500 mb-4 text-3xl">&#127922;</div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">التعلم عبر اللعب</h3>
-                        <p class="text-gray-600">اللعب هو الأداة التربوية الأولى للطفل. من خلاله يكتشف، يبتكر، ويتعلم تنظيم عالمه.</p>
-                    </div>
-
-                    <div class="bg-white rounded-2xl shadow-lg p-6 text-center transform hover:scale-105 transition-transform duration-300 flex flex-col items-center">
-                         <div class="flex items-center justify-center h-16 w-16 rounded-full bg-red-100 text-red-500 mb-4 text-3xl">&#128161;</div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">الطفل محور التعلم</h3>
-                        <p class="text-gray-600">ننطلق من الطفل أولاً. نلاحظ اهتماماته وقدراته، ونبني أنشطتنا لتلبية احتياجاته الفردية.</p>
-                    </div>
-
-                    <div class="bg-white rounded-2xl shadow-lg p-6 text-center transform hover:scale-105 transition-transform duration-300 flex flex-col items-center">
-                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-green-100 text-green-500 mb-4 text-3xl">&#127793;</div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">بيداغوجيا المشروع</h3>
-                        <p class="text-gray-600">نُمكّن الطفل من بناء تعلماته عبر مشاريع هادفة. من الفكرة إلى الإنجاز، يصبح الطفل فاعلاً ومسؤولاً.</p>
-                    </div>
-
-                    <div class="bg-white rounded-2xl shadow-lg p-6 text-center transform hover:scale-105 transition-transform duration-300 flex flex-col items-center">
-                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-blue-100 text-blue-500 mb-4 text-3xl">&#129309;</div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">المربية الميسِّرة</h3>
-                        <p class="text-gray-600">دورك ليس التلقين، بل المرافقة والتوجيه. أنتِ من يجهز الفضاء ويثير الفضول ويشجع على المبادرة.</p>
-                    </div>
-                </div>
-            </section>
-            
-             <section id="timeline-section" class="mb-12">
-                <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">🗓️ التوظيف الزمني المقترح</h2>
-                <div class="relative flex flex-col items-center timeline">
-
-                    <div class="timeline-item">
-                         <div class="timeline-dot"></div>
-                         <div class="bg-white rounded-xl shadow-lg p-6">
-                            <h3 class="text-2xl font-bold text-orange-500 mb-4">🌅 الفترة الصباحية</h3>
-                             <div class="space-y-3">
-                                <p><strong>9:00 - 9:30:</strong> استقبال وتحية العلم</p>
-                                <p><strong>9:30 - 10:00:</strong> أنشطة اعتيادية وقرآن كريم</p>
-                                <p><strong>10:00 - 10:30:</strong> سلوك حسي حركي</p>
-                                <p><strong>10:30 - 11:00:</strong> لمجة ومرور إلى المرحاض</p>
-                                <p><strong>11:00 - 11:40:</strong> عمل المجموعات (مع تناوب)</p>
-                                <p><strong>11:40 - 11:50:</strong> استراحة</p>
-                                <p><strong>11:50 - 12:10:</strong> قيم وقواعد العيش المشترك</p>
-                                <p><strong>12:10 - 12:50:</strong> عمل المجموعات (مع تناوب)</p>
-                                <p><strong>12:50 - 13:00:</strong> حصيلة</p>
-                            </div>
-                        </div>
-                    </div>
-                     <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="bg-white rounded-xl shadow-lg p-6">
-                             <h3 class="text-2xl font-bold text-teal-500 mb-4">🌇 الفترة المسائية</h3>
-                            <div class="space-y-3">
-                                <p><strong>14:00 - 14:30:</strong> استقبال ونشاط هادئ</p>
-                                <p><strong>14:30 - 15:00:</strong> أنشطة اعتيادية وأناشيد</p>
-                                <p><strong>15:00 - 15:30:</strong> سلوك حسي حركي</p>
-                                <p><strong>15:30 - 16:00:</strong> لمجة ومرور إلى المرحاض</p>
-                                <p><strong>16:00 - 16:40:</strong> عمل المجموعات (مع تناوب)</p>
-                                <p><strong>16:40 - 16:50:</strong> استراحة</p>
-                                <p><strong>16:50 - 17:10:</strong> تنمية الذوق الفني والجمالي</p>
-                                <p><strong>17:10 - 17:50:</strong> عمل المجموعات (مع تناوب)</p>
-                                <p><strong>17:50 - 18:00:</strong> حصيلة ومغادرة</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-            <section id="practice">
-                <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">✨ من النظرية إلى التطبيق: إرشادات عملية</h2>
-                <div class="space-y-8">
-
-                    <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 flex flex-col md:flex-row items-center gap-6">
-                        <div class="text-5xl p-4 bg-orange-100 text-orange-500 rounded-full flex-shrink-0">&#128221;</div>
-                        <div class="flex-1">
-                            <h3 class="text-2xl font-bold text-gray-800 mb-2">نظمي فضاء قسمك</h3>
-                            <p class="text-gray-700 text-lg">قسّمي فضائك إلى <strong>أركان تربوية</strong> واضحة (ركن القراءة، ركن الفن، ركن البناء). اجعلي الأدوات في متناول الأطفال لتشجيع استقلاليتهم.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 flex flex-col md:flex-row items-center gap-6">
-                        <div class="text-5xl p-4 bg-pink-100 text-pink-500 rounded-full flex-shrink-0">&#128483;</div>
-                        <div class="flex-1">
-                            <h3 class="text-2xl font-bold text-gray-800 mb-2">اعتمدي التواصل الإيجابي</h3>
-                            <p class="text-gray-700 text-lg">استخدمي عبارات تشجع على المحاولة مثل <strong>'فكرة رائعة، كيف يمكننا تطويرها؟'</strong> بدلاً من الحكم على النتائج. انزلي لمستوى نظر الطفل عند الحديث معه.</p>
-                        </div>
-                    </div>
-
-                    <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                            <div>
-                                <div class="flex items-center gap-4 mb-4">
-                                    <div class="text-5xl p-4 bg-cyan-100 text-cyan-500 rounded-full flex-shrink-0">&#9878;</div>
-                                    <h3 class="text-2xl font-bold text-gray-800">خططي أنشطة متوازنة</h3>
-                                </div>
-                                <p class="text-gray-700 text-lg">وازني خلال اليوم بين الأنشطة التي تتطلب <strong>التركيز الهادئ</strong> (قصة، رسم) والأنشطة التي تحتاج إلى <strong>حركة وطاقة</strong> (ألعاب حركية).</p>
-                            </div>
-                            <div class="chart-container h-64 md:h-72">
-                                <canvas id="activitiesChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    
-                     <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 flex flex-col md:flex-row items-center gap-6">
-                        <div class="text-5xl p-4 bg-purple-100 text-purple-500 rounded-full flex-shrink-0">&#128106;</div>
-                        <div class="flex-1">
-                            <h3 class="text-2xl font-bold text-gray-800 mb-2">اجعلي الأسرة شريكًا</h3>
-                            <p class="text-gray-700 text-lg">تواصلي بانتظام مع أولياء الأمور. <strong>دفتر التواصل</strong> أو لقاء قصير عند بوابة المؤسسة يقوي الشراكة التربوية لصالح الطفل.</p>
-                        </div>
-                    </div>
-
-                </div>
-            </section>
-            
-        </main>
+    <div id="app" class="container mx-auto max-w-6xl p-4 sm:p-6 md:p-8">
         
-        <footer class="text-center mt-16 pt-8 border-t border-gray-200">
-             <p class="text-gray-600 font-semibold">Debex &copy; 2025</p>
-        </footer>
+        <div id="main-app-view">
+             <header class="text-center mb-12">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight">مصاحب</h1>
+                <h2 class="text-2xl md:text-3xl font-bold text-teal-600 mt-2">مساعدك التربوي الذكي</h2>
+                <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">أدوات ذكية بين يديك لتسهيل مهامك التربوية اليومية.</p>
+            </header>
 
+            <main>
+                <section id="gemini-assistant">
+                    <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+                        <div class="mb-8">
+                            <h2 class="text-3xl font-bold text-teal-600 mb-4 text-center">🤖 اختر أداتك الذكية</h2>
+                            <div class="relative w-full max-w-xl mx-auto">
+                                <input type="text" id="search-tools" placeholder="ابحث عن أداة..." class="w-full p-3 pr-10 text-gray-700 bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-teal-500">
+                                <span class="absolute top-1/2 right-3 -translate-y-1/2 text-gray-400 text-2xl">🔍</span>
+                            </div>
+                        </div>
+                        
+                        <div id="tools-container" class="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        </div>
+                        <div id="mobile-tools-container" class="md:hidden flex overflow-x-auto snap-x snap-mandatory gap-4 mobile-scroll pb-4">
+                        </div>
+                    </div>
+                </section>
+            </main>
+             <footer class="text-center mt-16 pt-8 border-t border-gray-200">
+                <p class="text-gray-600 font-semibold">Debex &copy; 2025</p>
+            </footer>
+        </div>
+
+        <div id="modals-container"></div>
     </div>
-
-    <div id="modals-container"></div>
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const apiKey = "AIzaSyB8EtiG0tDH-j2GyPkzsGOh2nO8kMYUkuw"; // IMPORTANT: Add your Gemini API Key here
+            // ===================================================================
+            // ====================>   الرجاء وضع مفتاح API هنا   <===================
+            // ===================================================================
+            const apiKey = "AIzaSyDxFiTACc_-KTnS0Ai8y5Gzex8lL59wX_4"; // IMPORTANT: Add your Gemini API Key here. For example: "AIzaSy..."
+            // ===================================================================
+
             const textApiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-            const imageApiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
             
-            // Initialize charts
-            initCharts();
-            
-            // Create modals for all tools
-            createModals();
-            
-            // Add event listeners to tool buttons
-            document.querySelectorAll('.gemini-tab').forEach(button => {
-                button.addEventListener('click', () => {
-                    const modalId = button.getAttribute('data-modal');
-                    showModal(modalId);
+            const toolsData = {
+                "التخطيط": {
+                    color: "blue",
+                    tools: [
+                        { id: "unit", icon: "📅", name: "مخطط الوحدات", desc: "خطط لوحدة دراسية كاملة." },
+                        { id: "lesson", icon: "✨", name: "مخطط الدروس", desc: "جهز لدرسك في دقائق." },
+                        { id: "objectives", icon: "🎯", name: "مساعد الأهداف", desc: "حدد أهدافاً تربوية واضحة." },
+                        { id: "corners", icon: "🧩", name: "مقترح الأركان", desc: "أفكار إبداعية لأركان فصلك." }
+                    ]
+                },
+                "إنشاء المحتوى": {
+                     color: "green",
+                     tools: [
+                        { id: "activity", icon: "💡", name: "مولّد الأنشطة", desc: "احصل على أفكار أنشطة جديدة." },
+                        { id: "story", icon: "📖", name: "مولّد القصص", desc: "اكتب قصصاً مخصصة للأطفال." },
+                        { id: "song", icon: "🎶", name: "مولّد الأناشيد", desc: "ألّف أناشيد تعليمية بسهولة." },
+                        { id: "questions", icon: "🤔", name: "مولّد الأسئلة", desc: "اطرح أسئلة تثير الفضول." },
+                        { id: "flashcard", icon: "📇", name: "منشئ البطاقات", desc: "جهز بطاقات كلمات تعليمية." }
+                     ]
+                },
+                "إدارة الفصل": {
+                     color: "yellow",
+                     tools: [
+                        { id: "transition", icon: "🚀", name: "مساعد الانتقالات", desc: "نظم الفترات الانتقالية." },
+                        { id: "conflict", icon: "🗣️", name: "مساعد النزاعات", desc: "حوّل النزاعات لفرص تعلم." },
+                        { id: "roleplay", icon: "🎭", name: "لعب الأدوار", desc: "علّم المهارات الاجتماعية." },
+                        { id: "differentiation", icon: "🔧", name: "مكيف الأنشطة", desc: "كيّف الأنشطة لمختلف المستويات." },
+                        { id: "support", icon: "🤝", name: "الدعم الفردي", desc: "ضع خطط دعم مخصصة." }
+                     ]
+                },
+                 "المتابعة والتواصل": {
+                     color: "purple",
+                     tools: [
+                        { id: "observation", icon: "📋", name: "تدوين الملاحظات", desc: "حوّل ملاحظاتك لتقارير." },
+                        { id: "communication", icon: "✉️", name: "رسائل للأهل", desc: "تواصل بفعالية مع الآباء." },
+                        { id: "parent", icon: "🏡", name: "أنشطة منزلية", desc: "عزز التعلم في المنزل." },
+                        { id: "summary", icon: "📝", name: "ملخص اليوم", desc: "لخص يوم الأطفال بإيجابية." }
+                     ]
+                }
+            };
+
+            const colors = {
+                blue: { border: "border-blue-500", text: "text-blue-600" },
+                green: { border: "border-green-500", text: "text-green-600" },
+                yellow: { border: "border-yellow-500", text: "text-yellow-600" },
+                purple: { border: "border-purple-500", text: "text-purple-600" },
+            };
+
+            function generateAllModals() {
+                const modalsContainer = document.getElementById('modals-container');
+                let allModalsHTML = '';
+
+                Object.values(toolsData).forEach(group => {
+                    group.tools.forEach(tool => {
+                        allModalsHTML += `
+                            <div data-modal-id="${tool.id}" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center p-4 z-50">
+                                <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 relative">
+                                    <button data-close-button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+                                    <h3 class="text-2xl font-bold text-center mb-4 text-teal-600 flex items-center justify-center gap-3">${tool.icon} ${tool.name}</h3>
+                                    <form id="${tool.id}Form">
+                                        <div class="mb-6">
+                                            <label for="${tool.id}Input" class="block text-gray-700 text-sm font-bold mb-2">أدخل طلبك هنا:</label>
+                                            <textarea id="${tool.id}Input" rows="4" class="shadow-sm appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="${tool.desc}"></textarea>
+                                        </div>
+                                        <div class="text-center">
+                                            <button type="submit" class="bg-teal-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-teal-600 transition-colors">
+                                                ✨ توليد
+                                            </button>
+                                        </div>
+                                    </form>
+                                    <div id="${tool.id}Result" class="mt-6 hidden">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <h4 class="text-xl font-bold text-gray-800">النتيجة:</h4>
+                                            <button class="copy-btn bg-slate-200 text-slate-700 text-sm py-1 px-3 rounded-md hover:bg-slate-300">نسخ النص</button>
+                                        </div>
+                                        <div id="${tool.id}Loader" class="loader mx-auto my-4 hidden"></div>
+                                        <pre id="${tool.id}ResultText" class="bg-slate-100 p-4 rounded-lg whitespace-pre-wrap text-right font-sans h-48 overflow-y-auto"></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
                 });
+                modalsContainer.innerHTML = allModalsHTML;
+            }
+            
+            function copyTextToClipboard(text, button) {
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                textArea.style.position = "fixed"; 
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    const originalText = button.textContent;
+                    button.textContent = 'تم النسخ!';
+                    setTimeout(() => {
+                        button.textContent = originalText;
+                    }, 2000);
+                } catch (err) {
+                    console.error('Fallback: Oops, unable to copy', err);
+                }
+                document.body.removeChild(textArea);
+            }
+
+            function attachEventListeners() {
+                document.querySelectorAll('[data-modal]').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const modalId = button.dataset.modal;
+                        const targetModal = document.querySelector(`[data-modal-id="${modalId}"]`);
+                        if (targetModal) {
+                            targetModal.classList.remove('hidden');
+                            targetModal.classList.add('flex');
+                        }
+                    });
+                });
+
+                document.querySelectorAll('[data-close-button]').forEach(button => {
+                    button.addEventListener('click', () => {
+                        button.closest('[data-modal-id]').classList.add('hidden');
+                        button.closest('[data-modal-id]').classList.remove('flex');
+                    });
+                });
+                
+                document.querySelectorAll('form').forEach(form => {
+                   form.addEventListener('submit', (e) => handleFormSubmit(e));
+                });
+
+                document.querySelectorAll('.copy-btn').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const textToCopy = e.target.closest('div[id$="Result"]').querySelector('pre').textContent;
+                        copyTextToClipboard(textToCopy, e.target);
+                    });
+                });
+            }
+
+            function renderTools(filter = '') {
+                const desktopContainer = document.getElementById('tools-container');
+                const mobileContainer = document.getElementById('mobile-tools-container');
+                desktopContainer.innerHTML = '';
+                mobileContainer.innerHTML = '';
+
+                for (const groupName in toolsData) {
+                    const group = toolsData[groupName];
+                    const filteredTools = group.tools.filter(tool => tool.name.includes(filter) || tool.desc.includes(filter));
+                    
+                    if (filteredTools.length === 0) continue;
+
+                    let toolsHTML = '';
+                    filteredTools.forEach(tool => {
+                        toolsHTML += `
+                            <button data-modal="${tool.id}" class="w-full text-right p-4 rounded-lg bg-slate-50 hover:bg-slate-100 tool-card">
+                                <div class="flex items-center gap-4">
+                                    <span class="text-4xl">${tool.icon}</span>
+                                    <div>
+                                        <h4 class="font-bold text-lg text-gray-800">${tool.name}</h4>
+                                        <p class="text-sm text-gray-500">${tool.desc}</p>
+                                    </div>
+                                </div>
+                            </button>
+                        `;
+                    });
+
+                    const desktopGroupHTML = `
+                        <div class="tool-group">
+                            <h3 class="border-b-2 ${colors[group.color].border} ${colors[group.color].text}">${groupName}</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                                ${toolsHTML}
+                            </div>
+                        </div>`;
+                    
+                    const mobileGroupHTML = `
+                        <div class="tool-group snap-start flex-shrink-0 w-[85%] sm:w-1/2">
+                            <h3 class="border-b-2 ${colors[group.color].border} ${colors[group.color].text}">${groupName}</h3>
+                            <div class="grid grid-cols-1 gap-4 mt-4">
+                                ${toolsHTML}
+                            </div>
+                        </div>`;
+
+                     desktopContainer.innerHTML += desktopGroupHTML;
+                     mobileContainer.innerHTML += mobileGroupHTML;
+                }
+                attachEventListeners();
+            }
+            
+            document.getElementById('search-tools').addEventListener('input', (e) => {
+                renderTools(e.target.value);
             });
             
-            // Function to initialize charts
-            function initCharts() {
-                // Vision Chart
-                const visionCtx = document.getElementById('visionChart').getContext('2d');
-                new Chart(visionCtx, {
-                    type: 'radar',
-                    data: {
-                        labels: ['العقلية', 'الجسدية', 'الوجدانية', 'الاجتماعية', 'الإبداعية'],
-                        datasets: [{
-                            label: 'نمو الطفل',
-                            data: [85, 90, 80, 75, 95],
-                            backgroundColor: 'rgba(20, 184, 166, 0.2)',
-                            borderColor: 'rgba(20, 184, 166, 1)',
-                            pointBackgroundColor: 'rgba(20, 184, 166, 1)',
-                            pointBorderColor: '#fff',
-                            pointHoverBackgroundColor: '#fff',
-                            pointHoverBorderColor: 'rgba(20, 184, 166, 1)'
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            r: {
-                                angleLines: {
-                                    display: true
-                                },
-                                suggestedMin: 0,
-                                suggestedMax: 100
+            async function handleFormSubmit(e) {
+                e.preventDefault();
+                const form = e.target;
+                const toolId = form.id.replace('Form', '');
+                const inputEl = form.querySelector('textarea, input, select');
+                const input = inputEl.value;
+
+                if (!input.trim()) {
+                    alert('الرجاء إدخال طلبك.');
+                    return;
+                }
+                
+                const resultContainer = document.getElementById(`${toolId}Result`);
+                const loader = document.getElementById(`${toolId}Loader`);
+                const resultTextEl = document.getElementById(`${toolId}ResultText`);
+
+                resultContainer.classList.remove('hidden');
+                loader.classList.remove('hidden');
+                resultTextEl.textContent = '';
+
+                // This is a generic prompt. In a real app, you would have specific system prompts per tool.
+                const systemPrompt = "أنت مساعد تربوي متخصص في التعليم الأولي. قدم إجابات مفيدة ومبتكرة ومناسبة للأطفال الصغار والمربيات.";
+                
+                try {
+                    const resultText = await generateTextWithRetry(systemPrompt, input);
+                    resultTextEl.textContent = resultText;
+                    form.reset();
+                } catch (error) {
+                    resultTextEl.textContent = 'عذرًا، حدث خطأ. الرجاء المحاولة مرة أخرى.';
+                } finally {
+                    loader.classList.add('hidden');
+                }
+            }
+
+            async function generateTextWithRetry(systemPrompt, userQuery, retries = 3, delay = 1000) {
+                if (!apiKey) {
+                    return "خطأ: مفتاح API الخاص بـ Gemini غير موجود. يرجى إضافته في الكود.";
+                }
+                for (let i = 0; i < retries; i++) {
+                    try {
+                        const payload = {
+                            contents: [{ parts: [{ text: userQuery }] }],
+                            systemInstruction: { parts: [{ text: systemPrompt }] },
+                        };
+                        const response = await fetch(textApiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (!response.ok) {
+                             const errorBody = await response.json();
+                             console.error("API Error:", errorBody);
+                             throw new Error(`API request failed with status ${response.status}`);
+                        }
+                        
+                        const result = await response.json();
+                        const candidate = result.candidates?.[0];
+                        if (candidate && candidate.content?.parts?.[0]?.text) {
+                            return candidate.content.parts[0].text;
+                        } else {
+                            console.warn("Unexpected API response structure:", result);
+                            if(candidate && candidate.finishReason !== 'STOP'){
+                                return `تم حظر الطلب. السبب: ${candidate.finishReason}`;
                             }
+                            throw new Error('Invalid response structure from API');
+                        }
+                    } catch (error) {
+                        console.error(`Text generation attempt ${i + 1} failed:`, error);
+                        if (i < retries - 1) {
+                            await new Promise(res => setTimeout(res, delay * Math.pow(2, i)));
+                        } else {
+                           throw error;
                         }
                     }
-                });
-                
-                // Activities Chart
-                const activitiesCtx = document.getElementById('activitiesChart').getContext('2d');
-                new Chart(activitiesCtx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['أنشطة هادئة', 'أنشطة حركية'],
-                        datasets: [{
-                            data: [60, 40],
-                            backgroundColor: [
-                                'rgba(20, 184, 166, 0.8)',
-                                'rgba(249, 115, 22, 0.8)'
-                            ],
-                            borderColor: [
-                                'rgba(20, 184, 166, 1)',
-                                'rgba(249, 115, 22, 1)'
-                            ],
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'bottom',
-                                rtl: true
-                            }
-                        }
-                    }
-                });
-            }
-            
-            // Function to create all modals
-            function createModals() {
-                const modalsContainer = document.getElementById('modals-container');
-                
-                // Define modal configurations
-                const modalConfigs = {
-                    unit: {
-                        title: '📅 مخطط الوحدات',
-                        fields: [
-                            { type: 'text', name: 'theme', label: 'موضوع الوحدة', placeholder: 'أدخل موضوع الوحدة (مثل: الفصول الأربعة، الحيوانات، إلخ)' },
-                            { type: 'number', name: 'duration', label: 'المدة (أسابيع)', placeholder: 'عدد الأسابيع' },
-                            { type: 'number', name: 'age', label: 'عمر الأطفال', placeholder: 'العمر بالسنوات' }
-                        ],
-                        prompt: (data) => `أنشئ مخططًا لوحدة تعليمية حول موضوع "${data.theme}" لمدة ${data.duration} أسابيع لأطفال عمرهم ${data.age} سنوات. قم بتضمين الأهداف التعليمية، الأنشطة المقترحة، والمواد اللازمة.`
-                    },
-                    lesson: {
-                        title: '✨ مخطط الدروس',
-                        fields: [
-                            { type: 'text', name: 'topic', label: 'موضوع الدرس', placeholder: 'أدخل موضوع الدرس' },
-                            { type: 'number', name: 'duration', label: 'مدة الدرس (دقائق)', placeholder: 'المدة بالدقائق' },
-                            { type: 'number', name: 'age', label: 'عمر الأطفال', placeholder: 'العمر بالسنوات' }
-                        ],
-                        prompt: (data) => `صمم مخطط درس حول موضوع "${data.topic}" لمدة ${data.duration} دقيقة لأطفال عمرهم ${data.age} سنوات. قم بتضمين الأهداف، الإجراءات، والتقييم.`
-                    },
-                    activity: {
-                        title: '💡 مولّد الأنشطة',
-                        fields: [
-                            { type: 'text', name: 'topic', label: 'الموضوع', placeholder: 'أدخل الموضوع' },
-                            { type: 'number', name: 'age', label: 'عمر الأطفال', placeholder: 'العمر بالسنوات' },
-                            { type: 'select', name: 'type', label: 'نوع النشاط', options: ['حركي', 'إبداعي', 'تعاوني', 'استكشافي', 'لغة'] }
-                        ],
-                        prompt: (data) => `اقترح 3 أنشطة ${data.type} حول موضوع "${data.topic}" مناسبة لأطفال عمرهم ${data.age} سنوات. قم بتضمين المواد اللازمة وخطوات التنفيذ.`
-                    },
-                    // Add configurations for other tools here...
-                    story: {
-                        title: '📖 مولّد القصص',
-                        fields: [
-                            { type: 'text', name: 'topic', label: 'موضوع القصة', placeholder: 'أدخل موضوع القصة' },
-                            { type: 'number', name: 'age', label: 'عمر الأطفال', placeholder: 'العمر بالسنوات' },
-                            { type: 'number', name: 'length', label: 'الطول المقترح', placeholder: 'عدد الكلمات التقريبي' }
-                        ],
-                        prompt: (data) => `اكتب قصة تعليمية حول موضوع "${data.topic}" مناسبة لأطفال عمرهم ${data.age} سنوات وبطول حوالي ${data.length} كلمة. تأكد من أنها تحتوي على عنصر تعليمي وجزء ترفيهي.`
-                    }
-                    // Note: In a complete implementation, we would add configurations for all tools
-                };
-                
-                // Create modals based on configurations
-                for (const [modalId, config] of Object.entries(modalConfigs)) {
-                    const modal = document.createElement('div');
-                    modal.id = `modal-${modalId}`;
-                    modal.className = 'modal';
-                    
-                    modal.innerHTML = `
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h3 class="text-xl font-bold">${config.title}</h3>
-                                <button class="close-modal">&times;</button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="form-${modalId}">
-                                    ${config.fields.map(field => {
-                                        if (field.type === 'select') {
-                                            return `
-                                                <div class="mb-4">
-                                                    <label class="block text-gray-700 mb-2" for="${field.name}">${field.label}</label>
-                                                    <select name="${field.name}" id="${field.name}" class="w-full p-2 border border-gray-300 rounded-lg" required>
-                                                        ${field.options.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
-                                                    </select>
-                                                </div>
-                                            `;
-                                        } else {
-                                            return `
-                                                <div class="mb-4">
-                                                    <label class="block text-gray-700 mb-2" for="${field.name}">${field.label}</label>
-                                                    <input type="${field.type}" name="${field.name}" id="${field.name}" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="${field.placeholder}" required>
-                                                </div>
-                                            `;
-                                        }
-                                    }).join('')}
-                                    <div class="result-container hidden">
-                                        <h4 class="font-bold mb-2">النتيجة:</h4>
-                                        <div class="result-content"></div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="close-btn px-4 py-2 bg-gray-200 text-gray-800 rounded-lg">إلغاء</button>
-                                <button type="button" class="submit-btn px-4 py-2 bg-teal-600 text-white rounded-lg">إنشاء</button>
-                            </div>
-                        </div>
-                    `;
-                    
-                    modalsContainer.appendChild(modal);
-                    
-                    // Add event listeners for this modal
-                    const closeModal = () => {
-                        modal.style.display = 'none';
-                        document.getElementById(`form-${modalId}`).reset();
-                        modal.querySelector('.result-container').classList.add('hidden');
-                    };
-                    
-                    modal.querySelector('.close-modal').addEventListener('click', closeModal);
-                    modal.querySelector('.close-btn').addEventListener('click', closeModal);
-                    
-                    modal.querySelector('.submit-btn').addEventListener('click', async () => {
-                        const form = document.getElementById(`form-${modalId}`);
-                        const formData = new FormData(form);
-                        const data = Object.fromEntries(formData.entries());
-                        
-                        const resultContainer = modal.querySelector('.result-container');
-                        const resultContent = modal.querySelector('.result-content');
-                        
-                        // Show loading
-                        resultContent.innerHTML = '<div class="flex justify-center"><div class="loader"></div></div>';
-                        resultContainer.classList.remove('hidden');
-                        
-                        try {
-                            const prompt = config.prompt(data);
-                            const result = await callGeminiAPI(prompt);
-                            resultContent.innerHTML = `<div class="whitespace-pre-line">${result}</div>`;
-                        } catch (error) {
-                            resultContent.innerHTML = `<p class="text-red-500">حدث خطأ: ${error.message}</p>`;
-                        }
-                    });
-                    
-                    // Close modal when clicking outside
-                    modal.addEventListener('click', (e) => {
-                        if (e.target === modal) {
-                            modal.style.display = 'none';
-                            document.getElementById(`form-${modalId}`).reset();
-                            modal.querySelector('.result-container').classList.add('hidden');
-                        }
-                    });
                 }
             }
-            
-            // Function to show a specific modal
-            function showModal(modalId) {
-                const modal = document.getElementById(`modal-${modalId}`);
-                if (modal) {
-                    modal.style.display = 'flex';
-                    // Reset form and results
-                    document.getElementById(`form-${modalId}`).reset();
-                    modal.querySelector('.result-container').classList.add('hidden');
-                } else {
-                    alert('هذه الأداة قيد التطوير حالياً. سيتم إضافتها قريباً!');
-                }
-            }
-            
-            // Function to call Gemini API
-            async function callGeminiAPI(prompt) {
-                const requestBody = {
-                    contents: [{
-                        parts: [{
-                            text: prompt
-                        }]
-                    }]
-                };
-                
-                const response = await fetch(textApiUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(requestBody)
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                
-                if (data.candidates && data.candidates[0].content.parts[0].text) {
-                    return data.candidates[0].content.parts[0].text;
-                } else {
-                    throw new Error('لم يتم العثور على نتيجة في الاستجابة');
-                }
-            }
+
+            // --- Initial Setup ---
+            generateAllModals();
+            renderTools();
         });
     </script>
+
 </body>
 </html>
